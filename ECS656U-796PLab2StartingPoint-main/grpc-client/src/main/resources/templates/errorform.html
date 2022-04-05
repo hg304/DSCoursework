@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8"></meta>
+    <title>Error</title>
+</head>
+<body>
+    <h1>Sorry, something has gone wrong with the upload</h1>
+    <h2>Error:</h2><br>
+    <div th:if="${msg}">
+        <p th:text="${msg}"></p>
+    </div>
+    <div>
+        <p>Please go back and try again</p>
+        <a href="/">Go back to upload page</a>
+    </div>
+</body>
+</html>

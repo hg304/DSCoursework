@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8"></meta>
+    <title>Matrix</title>
+</head>
+<body>
+    <h1>Please upload one file that contains your two matrices</h1>
+    <p>The format should be as follows:</p>
+    <p>a b c</p>
+    <p>d e f</p>
+    <p>g h i</p><br>
+    <p>a b c</p>
+    <p>d e f</p>
+    <p>g h i</p>
+    <form action="/add" method="post" enctype="multipart/form-data">
+        <input type="file" name="file">
+        <input type="submit" value="Submit to addition operation"></input>
+    </form>
+    <form action="/multiply" method="post" enctype="multipart/form-data">
+        <input type="file" name="file">
+        <input type="submit" value="Submit to multiplication operation"></input>
+    </form>
+</body>
+</html>
