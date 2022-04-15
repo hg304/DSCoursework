@@ -258,6 +258,7 @@ public class GRPCClientService {
                 temp.setA(a);
                 temp.setB(b);
                 long start = System.nanoTime();
+                System.out.println("CALCULATING NUMBER OF SERVERS NEEDED.....");
                 MatrixReply rep = stub.multiplyBlock(temp.build());
                 long end = System.nanoTime();
                 long footprint = end - start;
