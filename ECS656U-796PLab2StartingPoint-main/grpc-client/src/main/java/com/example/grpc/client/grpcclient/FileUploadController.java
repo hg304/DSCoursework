@@ -36,7 +36,7 @@ public class FileUploadController {
     }
 
 
-    @RequestMapping("/add")
+    /*@RequestMapping("/add")
     public String add(Model model, @RequestParam("file") MultipartFile file) {
         if (file == null) {
             noFileAdded(model);
@@ -50,7 +50,7 @@ public class FileUploadController {
         int[][] matrixC = g.addMatrices(matrixA, matrixB);
         model.addAttribute("matrix", matrixAsString(matrixC));
         return "addresult";
-    }
+    }*/
 
     @RequestMapping("/multiply")
     public String multiply(Model model, @RequestParam("file") MultipartFile file) {
