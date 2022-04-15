@@ -181,13 +181,13 @@ public class GRPCClientService {
       }
 
      public int[][] multiplyMatrices(int[][] matrixA, int[][] matrixB) {
-        ManagedChannel channel1 = ManagedChannelBuilder.forAddress("localhost",9090).usePlaintext().build();
+        ManagedChannel channel1 = ManagedChannelBuilder.forAddress("10.128.0.2",9090).usePlaintext().build();
         MatrixServiceGrpc.MatrixServiceBlockingStub stub1 = MatrixServiceGrpc.newBlockingStub(channel1);
-        ManagedChannel channel2 = ManagedChannelBuilder.forAddress("localhost",9090).usePlaintext().build();
+        ManagedChannel channel2 = ManagedChannelBuilder.forAddress("10.128.0.3",9090).usePlaintext().build();
         MatrixServiceGrpc.MatrixServiceBlockingStub stub2 = MatrixServiceGrpc.newBlockingStub(channel2);
-        ManagedChannel channel3 = ManagedChannelBuilder.forAddress("localhost",9090).usePlaintext().build();
+        ManagedChannel channel3 = ManagedChannelBuilder.forAddress("10.128.0.4",9090).usePlaintext().build();
         MatrixServiceGrpc.MatrixServiceBlockingStub stub3 = MatrixServiceGrpc.newBlockingStub(channel3);
-        ManagedChannel channel4 = ManagedChannelBuilder.forAddress("localhost",9090).usePlaintext().build();
+        ManagedChannel channel4 = ManagedChannelBuilder.forAddress("10.128.0.5",9090).usePlaintext().build();
         MatrixServiceGrpc.MatrixServiceBlockingStub stub4 = MatrixServiceGrpc.newBlockingStub(channel4);
 
         MatrixServiceGrpc.MatrixServiceBlockingStub[] stubs = {stub1, stub2, stub3, stub4};
