@@ -34,10 +34,11 @@ public class MatrixServiceImpl extends MatrixServiceGrpc.MatrixServiceImplBase
 		System.out.println("Request received from client:\n" + request);
 		InnerList A = request.getA();
 		InnerList B = request.getB();
+		int length = request.getL();
 		int answer = 0;
 		
 		MatrixReply.Builder rep = MatrixReply.newBuilder();
-		for (int i = 0; i < A.size; i++) {
+		for (int i = 0; i < length; i++) {
 			answer += A.getA(i) * B.getA(i);
 		}
 		rep.setC(answer);
