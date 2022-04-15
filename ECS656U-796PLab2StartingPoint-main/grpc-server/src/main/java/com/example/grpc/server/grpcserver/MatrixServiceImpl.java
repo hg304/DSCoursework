@@ -15,11 +15,19 @@ public class MatrixServiceImpl extends MatrixServiceGrpc.MatrixServiceImplBase
 	public void addBlock(MatrixRequest request, StreamObserver<MatrixReply> reply)
 	{
 		System.out.println("Request received from client:\n" + request);
-		MatrixReply.Builder rep = MatrixReply.newBuilder();
-		rep.setC(request.getA() + request.getB());
-		MatrixReply response = rep.build();
-		reply.onNext(response);
-		reply.onCompleted();
+			List<InnerList> a = request.getAList();
+			List<InnerList> b = request.getBList();
+			MatrixReply.Builder rep = MatrixReply.newBuilder();
+			for (int i = 0; i < a.size(); i++) {
+					InnerList.Builder temp = InnerList.newBuilder();
+					for (int j = 0; j < a.get(i).getAList().size(); j++) {
+							temp.addA(a.get(i).getA(j) + b.get(i).getA(j));
+					}
+					rep.addC(temp);
+			}
+			MatrixReply response = rep.build();
+			reply.onNext(response);
+			reply.onCompleted();
 	}
 	@Override
 	public void multiplyBlock(MatrixRequest request, StreamObserver<MatrixReply> reply)
@@ -30,7 +38,7 @@ public class MatrixServiceImpl extends MatrixServiceGrpc.MatrixServiceImplBase
 		int answer = 0;
 		MatrixReply.Builder rep = MatrixReply.newBuilder();
 		for (int i = 0; i < A.size(); i++) {
-			answer += A.get(i) * B.get(i);
+			answer += A.getA(i) * B.getA(i);
 		}
 		rep.setC(answer);
 		MatrixReply response = rep.build();
