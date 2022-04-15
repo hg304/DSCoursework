@@ -128,7 +128,7 @@ public class GRPCClientService {
       }
 
       public int[][] addMatrices(int[][] matrixA, int[][] matrixB) {
-              ManagedChannel channel1 = ManagedChannelBuilder.forAddress("localhost",9090).usePlaintext().build();
+              /*ManagedChannel channel1 = ManagedChannelBuilder.forAddress("localhost",9090).usePlaintext().build();
               MatrixServiceGrpc.MatrixServiceBlockingStub stub1 = MatrixServiceGrpc.newBlockingStub(channel1);
               ManagedChannel channel2 = ManagedChannelBuilder.forAddress("localhost",9090).usePlaintext().build();
               MatrixServiceGrpc.MatrixServiceBlockingStub stub2 = MatrixServiceGrpc.newBlockingStub(channel2);
@@ -176,7 +176,7 @@ public class GRPCClientService {
                       }
               }
 
-              return finalm;
+              return finalm;*/
 
       }
 
