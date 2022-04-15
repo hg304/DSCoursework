@@ -35,12 +35,9 @@ public class MatrixServiceImpl extends MatrixServiceGrpc.MatrixServiceImplBase
 		InnerList A = request.getA();
 		InnerList B = request.getB();
 		int answer = 0;
-		int count = 0;
-		while (A.getA(count)) {
-			count += 1;
-		}
+		
 		MatrixReply.Builder rep = MatrixReply.newBuilder();
-		for (int i = 0; i < count; i++) {
+		for (int i = 0; i < A.size; i++) {
 			answer += A.getA(i) * B.getA(i);
 		}
 		rep.setC(answer);
