@@ -53,7 +53,7 @@ public class FileUploadController {
     }*/
 
     @RequestMapping("/multiply")
-    public String multiply(Model model, @RequestParam("file") MultipartFile file, @RequestParam("deadline") int deadline) {
+    public String multiply(Model model, @RequestParam("file") MultipartFile file, @RequestParam("deadline") long deadline) {
         if (file == null) {
             noFileAdded(model);
         }

@@ -180,7 +180,7 @@ public class GRPCClientService {
 
       }
 
-     public int[][] multiplyMatrices(int[][] matrixA, int[][] matrixB, int deadline) {
+     public int[][] multiplyMatrices(int[][] matrixA, int[][] matrixB, long deadline) {
         ManagedChannel channel1 = ManagedChannelBuilder.forAddress("10.128.0.2",9090).usePlaintext().build();
         MatrixServiceGrpc.MatrixServiceBlockingStub stub1 = MatrixServiceGrpc.newBlockingStub(channel1);
         ManagedChannel channel2 = ManagedChannelBuilder.forAddress("10.128.0.3",9090).usePlaintext().build();
@@ -223,7 +223,7 @@ public class GRPCClientService {
                 B.add(temp);
         }
 
-        int numberServers = getNumberServers(A.get(0), B.get(0), stubs[0], matrixA.length^2, deadline);
+        int numberServers = getNumberServers(A.get(0), B.get(0), stubs[0], (matrixA.length*matrixA.length), deadline);
 
         System.out.println("Number of servers to be used for operation: " + numberServers + "/8 servers");
 
@@ -253,7 +253,7 @@ public class GRPCClientService {
         return finalm;
         }
 
-        public int getNumberServers(InnerList.Builder a, InnerList.Builder b, MatrixServiceGrpc.MatrixServiceBlockingStub stub, int amountOfCalls, int deadline) {
+        public int getNumberServers(InnerList.Builder a, InnerList.Builder b, MatrixServiceGrpc.MatrixServiceBlockingStub stub, int amountOfCalls, long deadline) {
                 MatrixRequest.Builder temp = MatrixRequest.newBuilder();
                 temp.setA(a);
                 temp.setB(b);
@@ -262,9 +262,13 @@ public class GRPCClientService {
                 MatrixReply rep = stub.multiplyBlock(temp.build());
                 long end = System.nanoTime();
                 long footprint = end - start;
-                int numberOfServers = (int)(footprint*amountOfCalls) / deadline;
+                long numberOfServersLong = (footprint*amountOfCalls) / deadline;
+                int numberOfServers = Math.toIntExact(numberOfServersLong);
                 if (numberOfServers > 8) {
                         numberOfServers = 8;
+                }
+                if (numberOfServers < 1) {
+                        numberOfServers = 1;
                 }
                 return numberOfServers;
         }
