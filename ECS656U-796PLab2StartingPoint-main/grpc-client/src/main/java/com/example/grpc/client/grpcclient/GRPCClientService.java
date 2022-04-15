@@ -181,28 +181,52 @@ public class GRPCClientService {
       }
 
      public int[][] multiplyMatrices(int[][] matrixA, int[][] matrixB) {
-        ManagedChannel channel = ManagedChannelBuilder.forAddress("localhost",9090).usePlaintext().build();
-        MatrixServiceGrpc.MatrixServiceBlockingStub stub = MatrixServiceGrpc.newBlockingStub(channel);
-        MatrixRequest.Builder m = MatrixRequest.newBuilder();
+        ManagedChannel channel1 = ManagedChannelBuilder.forAddress("localhost",9090).usePlaintext().build();
+        MatrixServiceGrpc.MatrixServiceBlockingStub stub1 = MatrixServiceGrpc.newBlockingStub(channel1);
+        ManagedChannel channel2 = ManagedChannelBuilder.forAddress("localhost",9090).usePlaintext().build();
+        MatrixServiceGrpc.MatrixServiceBlockingStub stub2 = MatrixServiceGrpc.newBlockingStub(channel2);
+        ManagedChannel channel3 = ManagedChannelBuilder.forAddress("localhost",9090).usePlaintext().build();
+        MatrixServiceGrpc.MatrixServiceBlockingStub stub3 = MatrixServiceGrpc.newBlockingStub(channel3);
+        ManagedChannel channel4 = ManagedChannelBuilder.forAddress("localhost",9090).usePlaintext().build();
+        MatrixServiceGrpc.MatrixServiceBlockingStub stub4 = MatrixServiceGrpc.newBlockingStub(channel4);
+
+        MatrixServiceGrpc.MatrixServiceBlockingStub[] stubs = {stub1, stub2, stub3, stub4};
+
+        List<InnerList.Builder> A = new ArrayList<InnerList.Builder>();
+        List<InnerList.Builder> B = new ArrayList<InnerList.Builder>();
+
         for (int i = 0; i < matrixA.length; i++) {
-                InnerList.Builder temp1 = InnerList.newBuilder();
-                InnerList.Builder temp2 = InnerList.newBuilder();
-                for (int j = 0; j < matrixA[1].length; j++) {
-                  temp1.addA(matrixA[i][j]);
-                  temp2.addA(matrixB[i][j]);
+                InnerList.Builder temp = InnerList.newBuilder();
+                for (int j = 0; j < matrixA.length; j++) {
+                        temp.addA(matrixA[i][j]);
                 }
-          m.addA(temp1);
-          m.addB(temp2);
-
+                A.add(temp);
         }
-        MatrixReply A = stub.multiplyBlock(m.build());
 
-        List<InnerList> templist =  A.getCList();
-        int[][] finalm = new int[templist.size()][templist.size()];
-        for (int i = 0; i < finalm.length; i++) {
-                for (int j = 0; j < finalm.length; j++) {
-                        finalm[i][j] = templist.get(i).getA(j);
+        for (int i = 0; i < matrixB.length; i++) {
+                InnerList.Builder temp = InnerList.newBuilder();
+                for (int j = 0; j < matrixB.length; j++) {
+                        temp.addA(matrixB[j][i]);
                 }
+                B.add(temp);
+        }
+
+        int[][] finalm = new int[matrixA.length][matrixA.length];
+        int stubcounter = 0;
+        for (int i = 0; i < matrixA.length; i++) {
+                MatrixRequest.Builder temp = MatrixRequest.newBuilder();
+                temp.setA(A.get(i));
+                for (int j = 0; j < matrixA.length; j++) {
+                        temp.setB(B.get(j));
+                        MatrixReply rep = stubs[stubcounter].multiplyBlock(temp.build());
+                        if (stubcounter == stubs.length - 1) {
+                                stubcounter = 0;
+                        } else {
+                                stubcounter += 1;
+                        }
+                        finalm[i][j] = rep.getC();
+                }
+               
         }
 
         return finalm;

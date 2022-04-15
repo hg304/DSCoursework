@@ -29,13 +29,13 @@ service MatrixService{
 
 // The request message containing the two matricies
 message MatrixRequest {
-  repeated InnerList a = 1;
-  repeated InnerList b = 2;
+  InnerList a = 1;
+  InnerList b = 2;
 }
 
 // The response message containing the result marix
 message MatrixReply {
-  repeated InnerList c = 1;
+  int32 c = 1;
 }
 
 message InnerList {
