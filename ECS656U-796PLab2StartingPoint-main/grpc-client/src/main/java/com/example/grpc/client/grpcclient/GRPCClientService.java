@@ -180,7 +180,7 @@ public class GRPCClientService {
 
       }
 
-     public int[][] multiplyMatrices(int[][] matrixA, int[][] matrixB) {
+     public int[][] multiplyMatrices(int[][] matrixA, int[][] matrixB, int deadline) {
         ManagedChannel channel1 = ManagedChannelBuilder.forAddress("10.128.0.2",9090).usePlaintext().build();
         MatrixServiceGrpc.MatrixServiceBlockingStub stub1 = MatrixServiceGrpc.newBlockingStub(channel1);
         ManagedChannel channel2 = ManagedChannelBuilder.forAddress("10.128.0.3",9090).usePlaintext().build();
@@ -189,8 +189,20 @@ public class GRPCClientService {
         MatrixServiceGrpc.MatrixServiceBlockingStub stub3 = MatrixServiceGrpc.newBlockingStub(channel3);
         ManagedChannel channel4 = ManagedChannelBuilder.forAddress("10.128.0.5",9090).usePlaintext().build();
         MatrixServiceGrpc.MatrixServiceBlockingStub stub4 = MatrixServiceGrpc.newBlockingStub(channel4);
+        ManagedChannel channel5 = ManagedChannelBuilder.forAddress("10.128.0.6",9090).usePlaintext().build();
+        MatrixServiceGrpc.MatrixServiceBlockingStub stub5 = MatrixServiceGrpc.newBlockingStub(channel5);
+        ManagedChannel channel6 = ManagedChannelBuilder.forAddress("10.128.0.7",9090).usePlaintext().build();
+        MatrixServiceGrpc.MatrixServiceBlockingStub stub6 = MatrixServiceGrpc.newBlockingStub(channel6);
+        ManagedChannel channel7 = ManagedChannelBuilder.forAddress("10.128.0.8",9090).usePlaintext().build();
+        MatrixServiceGrpc.MatrixServiceBlockingStub stub7 = MatrixServiceGrpc.newBlockingStub(channel7);
+        ManagedChannel channel8 = ManagedChannelBuilder.forAddress("10.128.0.9",9090).usePlaintext().build();
+        MatrixServiceGrpc.MatrixServiceBlockingStub stub8 = MatrixServiceGrpc.newBlockingStub(channel8);
 
-        MatrixServiceGrpc.MatrixServiceBlockingStub[] stubs = {stub1, stub2, stub3, stub4};
+
+        MatrixServiceGrpc.MatrixServiceBlockingStub[] stubs = {stub1, stub2, stub3, stub4, stub5, stub6, stub7, stub8};
+        List<MatrixServiceGrpc.MatrixServiceBlockingStub> selectedstubs = new ArrayList<MatrixServiceGrpc.MatrixServiceBlockingStub>();
+
+
 
         List<InnerList.Builder> A = new ArrayList<InnerList.Builder>();
         List<InnerList.Builder> B = new ArrayList<InnerList.Builder>();
@@ -211,6 +223,14 @@ public class GRPCClientService {
                 B.add(temp);
         }
 
+        int numberServers = getNumberServers(A.get(0), B.get(0), stubs[0], matrixA.length^2, deadline);
+
+        System.out.println("Number of servers to be used for operation: " + numberServers + "/8 servers");
+
+        for (int i = 0; i < numberServers; i++) {
+                selectedstubs.add(stubs[i]);
+        }
+
         int[][] finalm = new int[matrixA.length][matrixA.length];
         int stubcounter = 0;
         for (int i = 0; i < matrixA.length; i++) {
@@ -219,8 +239,8 @@ public class GRPCClientService {
                 temp.setL(matrixA.length);
                 for (int j = 0; j < matrixA.length; j++) {
                         temp.setB(B.get(j));
-                        MatrixReply rep = stubs[stubcounter].multiplyBlock(temp.build());
-                        if (stubcounter == stubs.length - 1) {
+                        MatrixReply rep = selectedstubs.get(stubcounter).multiplyBlock(temp.build());
+                        if (stubcounter == selectedstubs.length - 1) {
                                 stubcounter = 0;
                         } else {
                                 stubcounter += 1;
@@ -231,9 +251,26 @@ public class GRPCClientService {
         }
 
         return finalm;
-}
+        }
 
-      public int[][] stringToMatrix(String line, int col, int row) {
+        public int getNumberServers(InnerList.Builder a, InnerList.Builder b, MatrixServiceGrpc.MatrixServiceBlockingStub stub, int amountOfCalls, int deadline) {
+                MatrixRequest.Builder temp = MatrixRequest.newBuilder();
+                temp.setA(a);
+                temp.setB(b);
+                long start = System.nanoTime();
+                MatrixReply rep = stub.multiplyBlock(temp.build());
+                long end = System.nanoTime();
+                long footprint = end - start;
+                int numberOfServers = (int)(footprint*amountOfCalls) / deadline;
+                if (numberOfServers > 8) {
+                        numberOfServers = 8;
+                }
+                return numberOfServers;
+        }
+
+
+
+        public int[][] stringToMatrix(String line, int col, int row) {
         String[] lineArr = line.split(" ");
         int[][] matrix = new int[row][col];
         int pointerrow = 0;
@@ -241,12 +278,12 @@ public class GRPCClientService {
         String temp = "";
 
         for (int i = 0; i < lineArr.length; i++) {
-            matrix[pointerrow][pointercol] = Integer.parseInt(lineArr[i]);
-            pointercol += 1;
-            if (pointercol == col) {
+                matrix[pointerrow][pointercol] = Integer.parseInt(lineArr[i]);
+                pointercol += 1;
+                if (pointercol == col) {
                 pointerrow += 1;
                 pointercol = 0;
-            }
+                }
         }
 
         return matrix;

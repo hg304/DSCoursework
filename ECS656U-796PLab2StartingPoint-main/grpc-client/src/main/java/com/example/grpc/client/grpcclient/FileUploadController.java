@@ -53,7 +53,7 @@ public class FileUploadController {
     }*/
 
     @RequestMapping("/multiply")
-    public String multiply(Model model, @RequestParam("file") MultipartFile file) {
+    public String multiply(Model model, @RequestParam("file") MultipartFile file, @RequestParam("deadline") int deadline) {
         if (file == null) {
             noFileAdded(model);
         }
@@ -63,7 +63,7 @@ public class FileUploadController {
         s.deleteAll();
         int[][] matrixA = matrices[0];
         int[][] matrixB = matrices[1];
-        int[][] matrixC = g.multiplyMatrices(matrixA, matrixB);
+        int[][] matrixC = g.multiplyMatrices(matrixA, matrixB, deadline);
         model.addAttribute("matrix", matrixAsString(matrixC));
         return "addresult";
     }
