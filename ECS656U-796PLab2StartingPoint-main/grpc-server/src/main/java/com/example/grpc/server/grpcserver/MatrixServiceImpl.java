@@ -40,7 +40,7 @@ public class MatrixServiceImpl extends MatrixServiceGrpc.MatrixServiceImplBase
 			count += 1;
 		}
 		MatrixReply.Builder rep = MatrixReply.newBuilder();
-		for (int i = 0; i < count;. i++) {
+		for (int i = 0; i < count; i++) {
 			answer += A.getA(i) * B.getA(i);
 		}
 		rep.setC(answer);
