@@ -15,13 +15,13 @@ public class MatrixServiceImpl extends MatrixServiceGrpc.MatrixServiceImplBase
 	public void addBlock(MatrixRequest request, StreamObserver<MatrixReply> reply)
 	{
 		System.out.println("Request received from client:\n" + request);
-			List<InnerList> a = request.getA();
-			List<InnerList> b = request.getB();
+			InnerList A = request.getA();
+			InnerList B = request.getB();
 			int index = request.getN();
 			int answer = 0;
 
 			MatrixReply.Builder rep = MatrixReply.newBuilder();
-			rep.setC(a.getA(index) + b.getA(index));
+			rep.setC(A.getA(index) + B.getA(index));
 			MatrixReply response = rep.build();
 			reply.onNext(response);
 			reply.onCompleted();

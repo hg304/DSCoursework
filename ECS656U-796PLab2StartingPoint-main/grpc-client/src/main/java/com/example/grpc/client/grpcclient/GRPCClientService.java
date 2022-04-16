@@ -185,7 +185,7 @@ public class GRPCClientService {
         for (int i = 0; i < matrixA.length; i++) {
                 MatrixRequest.Builder temp = MatrixRequest.newBuilder();
                 temp.setA(A.get(i));
-                temp.setB(B.get(j));
+                temp.setB(B.get(i));
                 for (int j = 0; j < matrixA.length; j++) {
                         temp.setN(j);
                         MatrixReply rep = selectedstubs.get(stubcounter).addBlock(temp.build());
