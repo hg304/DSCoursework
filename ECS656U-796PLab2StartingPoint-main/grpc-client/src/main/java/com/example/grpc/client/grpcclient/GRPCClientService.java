@@ -205,25 +205,30 @@ public class GRPCClientService {
 
      public int[][] multiplyMatrices(int[][] matrixA, int[][] matrixB, long deadline) {
         ManagedChannel channel1 = ManagedChannelBuilder.forAddress("10.128.0.2",9090).usePlaintext().build();
-        MatrixServiceGrpc.MatrixServiceBlockingStub stub1 = MatrixServiceGrpc.newBlockingStub(channel1);
+        MatrixServiceGrpc.MatrixServiceFutureStub stub1 = MatrixServiceGrpc.newFutureStub(channel1);
         ManagedChannel channel2 = ManagedChannelBuilder.forAddress("10.128.0.3",9090).usePlaintext().build();
-        MatrixServiceGrpc.MatrixServiceBlockingStub stub2 = MatrixServiceGrpc.newBlockingStub(channel2);
+        MatrixServiceGrpc.MatrixServiceFutureStub stub2 = MatrixServiceGrpc.newFutureStub(channel2);
         ManagedChannel channel3 = ManagedChannelBuilder.forAddress("10.128.0.4",9090).usePlaintext().build();
-        MatrixServiceGrpc.MatrixServiceBlockingStub stub3 = MatrixServiceGrpc.newBlockingStub(channel3);
+        MatrixServiceGrpc.MatrixServiceFutureStub stub3 = MatrixServiceGrpc.newFutureStub(channel3);
         ManagedChannel channel4 = ManagedChannelBuilder.forAddress("10.128.0.5",9090).usePlaintext().build();
-        MatrixServiceGrpc.MatrixServiceBlockingStub stub4 = MatrixServiceGrpc.newBlockingStub(channel4);
+        MatrixServiceGrpc.MatrixServiceFutureStub stub4 = MatrixServiceGrpc.newFutureStub(channel4);
         ManagedChannel channel5 = ManagedChannelBuilder.forAddress("10.128.0.6",9090).usePlaintext().build();
-        MatrixServiceGrpc.MatrixServiceBlockingStub stub5 = MatrixServiceGrpc.newBlockingStub(channel5);
+        MatrixServiceGrpc.MatrixServiceFutureStub stub5 = MatrixServiceGrpc.newFutureStub(channel5);
         ManagedChannel channel6 = ManagedChannelBuilder.forAddress("10.128.0.7",9090).usePlaintext().build();
-        MatrixServiceGrpc.MatrixServiceBlockingStub stub6 = MatrixServiceGrpc.newBlockingStub(channel6);
+        MatrixServiceGrpc.MatrixServiceFutureStub stub6 = MatrixServiceGrpc.newFutureStub(channel6);
         ManagedChannel channel7 = ManagedChannelBuilder.forAddress("10.128.0.8",9090).usePlaintext().build();
-        MatrixServiceGrpc.MatrixServiceBlockingStub stub7 = MatrixServiceGrpc.newBlockingStub(channel7);
+        MatrixServiceGrpc.MatrixServiceFutureStub stub7 = MatrixServiceGrpc.newFutureStub(channel7);
         ManagedChannel channel8 = ManagedChannelBuilder.forAddress("10.128.0.9",9090).usePlaintext().build();
-        MatrixServiceGrpc.MatrixServiceBlockingStub stub8 = MatrixServiceGrpc.newBlockingStub(channel8);
+        MatrixServiceGrpc.MatrixServiceFutureStub stub8 = MatrixServiceGrpc.newFutureStub(channel8);
 
-        MatrixServiceGrpc.MatrixServiceBlockingStub[] stubs = {stub1, stub2, stub3, stub4, stub5, stub6, stub7, stub8};
-        List<MatrixServiceGrpc.MatrixServiceBlockingStub> selectedstubs = new ArrayList<MatrixServiceGrpc.MatrixServiceBlockingStub>();
-
+        List<MatrixRequest.Builder> stubqueue1 = new ArrayList<MatrixRequest.Builder>();
+        List<MatrixRequest.Builder> stubqueue2 = new ArrayList<MatrixRequest.Builder>();
+        List<MatrixRequest.Builder> stubqueue3 = new ArrayList<MatrixRequest.Builder>();
+        List<MatrixRequest.Builder> stubqueue4 = new ArrayList<MatrixRequest.Builder>();
+        List<MatrixRequest.Builder> stubqueue5 = new ArrayList<MatrixRequest.Builder>();
+        List<MatrixRequest.Builder> stubqueue6 = new ArrayList<MatrixRequest.Builder>();
+        List<MatrixRequest.Builder> stubqueue7 = new ArrayList<MatrixRequest.Builder>();
+        List<MatrixRequest.Builder> stubqueue8 = new ArrayList<MatrixRequest.Builder>();
 
 
         List<InnerList.Builder> A = new ArrayList<InnerList.Builder>();
@@ -249,10 +254,6 @@ public class GRPCClientService {
 
         System.out.println("Number of servers to be used for operation: " + numberServers + "/8 servers");
 
-        for (int i = 0; i < numberServers; i++) {
-                selectedstubs.add(stubs[i]);
-        }
-
         int[][] finalm = new int[matrixA.length][matrixA.length];
         int stubcounter = 0;
         for (int i = 0; i < matrixA.length; i++) {
@@ -261,15 +262,50 @@ public class GRPCClientService {
                 temp.setN(matrixA.length);
                 for (int j = 0; j < matrixA.length; j++) {
                         temp.setB(B.get(j));
-                        MatrixReply rep = selectedstubs.get(stubcounter).multiplyBlock(temp.build());
-                        if (stubcounter == selectedstubs.length - 1) {
+                        switch (stubcounter) {
+                                case 0:
+                                        stubqueue1.add(temp.build());
+                                case 1:
+                                        stubqueue2.add(temp.build());
+                                case 2:
+                                        stubqueue3.add(temp.build());
+                                case 3:
+                                        stubqueue4.add(temp.build());
+                                case 4:
+                                        stubqueue5.add(temp.build());
+                                case 5:
+                                        stubqueue6.add(temp.build());
+                                case 6:
+                                        stubqueue7.add(temp.build());
+                                case 7:
+                                        stubqueue8.add(temp.build());
+                        }
+                        if (stubcounter == numberServers - 1) {
                                 stubcounter = 0;
                         } else {
                                 stubcounter += 1;
                         }
-                        finalm[i][j] = rep.getC();
                 }
                
+        }
+
+        List<Future<MatrixReply>> answers = new ArrayList<Future<MatrixReply>>();
+
+        for (int i = 0; i < stubqueue1.size(); i++) {
+                answers.add(stub1.multiplyBlock(stubqueue1.get(i)));
+                answers.add(stub2.multiplyBlock(stubqueue2.get(i)));
+                answers.add(stub3.multiplyBlock(stubqueue3.get(i)));
+                answers.add(stub4.multiplyBlock(stubqueue4.get(i)));
+                answers.add(stub5.multiplyBlock(stubqueue5.get(i)));
+                answers.add(stub6.multiplyBlock(stubqueue6.get(i)));
+                answers.add(stub7.multiplyBlock(stubqueue7.get(i)));
+                answers.add(stub8.multiplyBlock(stubqueue8.get(i)));
+        }
+
+        for (int i = 0; i < finalm.length; i++) {
+                for (int j = 0; j < finalm.length; j++) {
+                        finalm[i][j] = answers.get(i).getA(j);
+                }
         }
 
         return finalm;
