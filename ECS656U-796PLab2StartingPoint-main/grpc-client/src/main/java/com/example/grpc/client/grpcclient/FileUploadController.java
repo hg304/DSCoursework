@@ -36,8 +36,8 @@ public class FileUploadController {
     }
 
 
-    /*@RequestMapping("/add")
-    public String add(Model model, @RequestParam("file") MultipartFile file) {
+    @RequestMapping("/add")
+    public String add(Model model, @RequestParam("file") MultipartFile file, @RequestParam("deadline") long deadline) {
         if (file == null) {
             noFileAdded(model);
         }
@@ -47,10 +47,10 @@ public class FileUploadController {
         s.deleteAll();
         int[][] matrixA = matrices[0];
         int[][] matrixB = matrices[1];
-        int[][] matrixC = g.addMatrices(matrixA, matrixB);
+        int[][] matrixC = g.addMatrices(matrixA, matrixB, deadline);
         model.addAttribute("matrix", matrixAsString(matrixC));
         return "addresult";
-    }*/
+    }
 
     @RequestMapping("/multiply")
     public String multiply(Model model, @RequestParam("file") MultipartFile file, @RequestParam("deadline") long deadline) {
