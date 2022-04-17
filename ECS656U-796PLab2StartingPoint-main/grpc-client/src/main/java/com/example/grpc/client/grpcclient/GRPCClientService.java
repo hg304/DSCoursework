@@ -11,6 +11,7 @@ import java.util.concurrent.Future;
 import com.example.grpc.server.grpcserver.PingRequest;
 import com.example.grpc.server.grpcserver.PongResponse;
 import com.example.grpc.server.grpcserver.InnerList.Builder;
+import com.google.common.util.concurrent.ListenableFuture;
 import com.example.grpc.server.grpcserver.PingPongServiceGrpc;
 import com.example.grpc.server.grpcserver.MatrixRequest;
 import com.example.grpc.server.grpcserver.MatrixReply;
@@ -290,41 +291,17 @@ public class GRPCClientService {
                
         }
 
-        List<CompletableFuture<MatrixReply>> answers = new ArrayList<CompletableFuture<MatrixReply>>();
+        List<ListenableFuture<MatrixReply>> answers = new ArrayList<ListenableFuture<MatrixReply>>();
 
         for (int i = 0; i < stubqueue1.size(); i++) {
-                answers.add(CompletableFuture.supplyAsync(() -> { 
-                        Thread.sleep(1000);
-                        return stub1.multiplyBlock(stubqueue1.get(i)); 
-                }));
-                answers.add(CompletableFuture.supplyAsync(() -> { 
-                        Thread.sleep(1000);
-                        return stub2.multiplyBlock(stubqueue2.get(i)); 
-                }));
-                answers.add(CompletableFuture.supplyAsync(() -> { 
-                        Thread.sleep(1000);
-                        return stub3.multiplyBlock(stubqueue3.get(i)); 
-                }));
-                answers.add(CompletableFuture.supplyAsync(() -> {
-                        Thread.sleep(1000); 
-                        return stub4.multiplyBlock(stubqueue4.get(i)); 
-                }));
-                answers.add(CompletableFuture.supplyAsync(() -> { 
-                        Thread.sleep(1000);
-                        return stub5.multiplyBlock(stubqueue5.get(i)); 
-                }));
-                answers.add(CompletableFuture.supplyAsync(() -> {
-                        Thread.sleep(1000); 
-                        return stub6.multiplyBlock(stubqueue6.get(i)); 
-                }));
-                answers.add(CompletableFuture.supplyAsync(() -> { 
-                        Thread.sleep(1000);
-                        return stub7.multiplyBlock(stubqueue7.get(i)); 
-                }));
-                answers.add(CompletableFuture.supplyAsync(() -> { 
-                        Thread.sleep(1000);
-                        return stub8.multiplyBlock(stubqueue8.get(i)); 
-                }));
+                answers.add(stub1.multiplyBlock(stubqueue1.get(i))); 
+                answers.add(stub2.multiplyBlock(stubqueue2.get(i))); 
+                answers.add(stub3.multiplyBlock(stubqueue3.get(i))); 
+                answers.add(stub4.multiplyBlock(stubqueue4.get(i))); 
+                answers.add(stub5.multiplyBlock(stubqueue5.get(i))); 
+                answers.add(stub6.multiplyBlock(stubqueue6.get(i))); 
+                answers.add(stub7.multiplyBlock(stubqueue7.get(i))); 
+                answers.add(stub8.multiplyBlock(stubqueue8.get(i))); 
         }
 
         for (int i = 0; i < finalm.length; i++) {
