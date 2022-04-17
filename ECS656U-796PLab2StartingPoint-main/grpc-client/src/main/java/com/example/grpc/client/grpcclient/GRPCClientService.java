@@ -262,12 +262,13 @@ public class GRPCClientService {
                 for (int j = 0; j < matrixA.length; j++) {
                         temp.setB(B.get(i));
                         MatrixReply rep = selectedstubs.get(stubcounter).multiplyBlock(temp.build());
+                        finalm[i][j] = rep.getC();
                         if (stubcounter == selectedstubs.size() - 1) {
                                 stubcounter = 0;
                         } else {
                                 stubcounter += 1;
                         }
-                        finalm[i][j] = rep.getC();
+                        
                 }
                
         }
