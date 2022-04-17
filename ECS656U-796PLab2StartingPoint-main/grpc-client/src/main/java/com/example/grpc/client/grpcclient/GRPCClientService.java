@@ -191,7 +191,7 @@ public class GRPCClientService {
                 for (int j = 0; j < matrixA.length; j++) {
                         temp.setN(j);
                         MatrixReply rep = selectedstubs.get(stubcounter).addBlock(temp.build());
-                        if (stubcounter == selectedstubs.length - 1) {
+                        if (stubcounter == selectedstubs.size() - 1) {
                                 stubcounter = 0;
                         } else {
                                 stubcounter += 1;
@@ -306,7 +306,7 @@ public class GRPCClientService {
 
         for (int i = 0; i < finalm.length; i++) {
                 for (int j = 0; j < finalm.length; j++) {
-                        finalm[i][j] = answers.get(i).get().getA(j);
+                        finalm[i][j] = answers.get(i).get().getC();
                 }
         }
 
