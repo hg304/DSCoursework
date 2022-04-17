@@ -222,14 +222,14 @@ public class GRPCClientService {
         ManagedChannel channel8 = ManagedChannelBuilder.forAddress("10.128.0.9",9090).usePlaintext().build();
         MatrixServiceGrpc.MatrixServiceFutureStub stub8 = MatrixServiceGrpc.newFutureStub(channel8);
 
-        List<MatrixRequest.Builder> stubqueue1 = new ArrayList<MatrixRequest.Builder>();
-        List<MatrixRequest.Builder> stubqueue2 = new ArrayList<MatrixRequest.Builder>();
-        List<MatrixRequest.Builder> stubqueue3 = new ArrayList<MatrixRequest.Builder>();
-        List<MatrixRequest.Builder> stubqueue4 = new ArrayList<MatrixRequest.Builder>();
-        List<MatrixRequest.Builder> stubqueue5 = new ArrayList<MatrixRequest.Builder>();
-        List<MatrixRequest.Builder> stubqueue6 = new ArrayList<MatrixRequest.Builder>();
-        List<MatrixRequest.Builder> stubqueue7 = new ArrayList<MatrixRequest.Builder>();
-        List<MatrixRequest.Builder> stubqueue8 = new ArrayList<MatrixRequest.Builder>();
+        List<MatrixRequest> stubqueue1 = new ArrayList<MatrixRequest>();
+        List<MatrixRequest> stubqueue2 = new ArrayList<MatrixRequest>();
+        List<MatrixRequest> stubqueue3 = new ArrayList<MatrixRequest>();
+        List<MatrixRequest> stubqueue4 = new ArrayList<MatrixRequest>();
+        List<MatrixRequest> stubqueue5 = new ArrayList<MatrixRequest>();
+        List<MatrixRequest> stubqueue6 = new ArrayList<MatrixRequest>();
+        List<MatrixRequest> stubqueue7 = new ArrayList<MatrixRequest>();
+        List<MatrixRequest> stubqueue8 = new ArrayList<MatrixRequest>();
 
 
         List<InnerList.Builder> A = new ArrayList<InnerList.Builder>();
