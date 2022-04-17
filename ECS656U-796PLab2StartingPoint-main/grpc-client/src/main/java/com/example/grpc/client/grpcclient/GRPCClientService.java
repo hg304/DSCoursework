@@ -295,35 +295,35 @@ public class GRPCClientService {
         for (int i = 0; i < stubqueue1.size(); i++) {
                 answers.add(CompletableFuture.supplyAsync(() -> { 
                         Thread.sleep(1000);
-                        stub1.multiplyBlock(stubqueue1.get(i)); 
+                        return stub1.multiplyBlock(stubqueue1.get(i)); 
                 }));
                 answers.add(CompletableFuture.supplyAsync(() -> { 
                         Thread.sleep(1000);
-                        stub2.multiplyBlock(stubqueue2.get(i)); 
+                        return stub2.multiplyBlock(stubqueue2.get(i)); 
                 }));
                 answers.add(CompletableFuture.supplyAsync(() -> { 
                         Thread.sleep(1000);
-                        stub3.multiplyBlock(stubqueue3.get(i)); 
+                        return stub3.multiplyBlock(stubqueue3.get(i)); 
                 }));
                 answers.add(CompletableFuture.supplyAsync(() -> {
                         Thread.sleep(1000); 
-                        stub4.multiplyBlock(stubqueue4.get(i)); 
+                        return stub4.multiplyBlock(stubqueue4.get(i)); 
                 }));
                 answers.add(CompletableFuture.supplyAsync(() -> { 
                         Thread.sleep(1000);
-                        stub5.multiplyBlock(stubqueue5.get(i)); 
+                        return stub5.multiplyBlock(stubqueue5.get(i)); 
                 }));
                 answers.add(CompletableFuture.supplyAsync(() -> {
                         Thread.sleep(1000); 
-                        stub6.multiplyBlock(stubqueue6.get(i)); 
+                        return stub6.multiplyBlock(stubqueue6.get(i)); 
                 }));
                 answers.add(CompletableFuture.supplyAsync(() -> { 
                         Thread.sleep(1000);
-                        stub7.multiplyBlock(stubqueue7.get(i)); 
+                        return stub7.multiplyBlock(stubqueue7.get(i)); 
                 }));
                 answers.add(CompletableFuture.supplyAsync(() -> { 
                         Thread.sleep(1000);
-                        stub8.multiplyBlock(stubqueue8.get(i)); 
+                        return stub8.multiplyBlock(stubqueue8.get(i)); 
                 }));
         }
 
