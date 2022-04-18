@@ -33,7 +33,7 @@ message MatrixRequest {
   InnerList b = 2;
   int32 length = 3;
   int32 index1 = 4;
-  int32 index2 = 5
+  int32 index2 = 5;
 }
 
 // The response message containing the result marix
@@ -46,5 +46,6 @@ message MatrixReply {
 message InnerList {
   repeated int32 a = 1;
 }
+
 
 
