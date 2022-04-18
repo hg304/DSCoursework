@@ -17,13 +17,13 @@ public class MatrixServiceImpl extends MatrixServiceGrpc.MatrixServiceImplBase
 		System.out.println("Request received from client:\n" + request);
 			InnerList A = request.getA();
 			InnerList B = request.getB();
-			int index = request.getLength();
-			int answer = 0;
+			int index1 = request.getIndex1();
+			int index2 = request.getIndex2();
 
 			MatrixReply.Builder rep = MatrixReply.newBuilder();
-			rep.setC(A.getA(index) + B.getA(index));
-			rep.setIndex1(0);
-			rep.setIndex2(0);
+			rep.setC(A.getA(index1) + B.getA(index1));
+			rep.setIndex1(index1);
+			rep.setIndex2(index2);
 			MatrixReply response = rep.build();
 			reply.onNext(response);
 			reply.onCompleted();

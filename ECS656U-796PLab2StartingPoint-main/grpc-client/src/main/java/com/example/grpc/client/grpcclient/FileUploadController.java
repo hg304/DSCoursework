@@ -45,10 +45,10 @@ public class FileUploadController {
         s.store(file);
         String f = Paths.get(p.getLocation(),file.getOriginalFilename()).toString();
         int[][][] matrices = g.GrpcService(model, f);
-        s.deleteAll();
         int[][] matrixA = matrices[0];
         int[][] matrixB = matrices[1];
         int[][] matrixC = g.addMatrices(matrixA, matrixB, deadline);
+        s.delete(Paths.get(p.getLocation(),file.getOriginalFilename()));
         model.addAttribute("matrix", matrixAsString(matrixC));
         return "addresult";
     }
@@ -61,10 +61,10 @@ public class FileUploadController {
         s.store(file);
         String f = Paths.get(p.getLocation(),file.getOriginalFilename()).toString();
         int[][][] matrices = g.GrpcService(model, f);
-        s.deleteAll();
         int[][] matrixA = matrices[0];
         int[][] matrixB = matrices[1];
         int[][] matrixC = g.multiplyMatrices(matrixA, matrixB, deadline);
+        s.delete(Paths.get(p.getLocation(),file.getOriginalFilename()));
         model.addAttribute("matrix", matrixAsString(matrixC));
         return "addresult";
     }
@@ -74,7 +74,7 @@ public class FileUploadController {
         for (int i=0; i<m.length; i++) {
             for (int j=0; j<m[i].length; j++) {
                 if (j == m[i].length - 1) {
-                    line += m[i][j] + "<br>";
+                    line += m[i][j] + "<br/>";
                 } else {
                     line += m[i][j] + " ";
                 }

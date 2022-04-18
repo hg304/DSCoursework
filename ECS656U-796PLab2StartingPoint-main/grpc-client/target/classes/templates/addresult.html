@@ -8,7 +8,11 @@
     <h1>Success<h1>
     <p>Here is the result of the operation:</p>
     <div th:if="${matrix}">
-        <p th:text="${matrix}"></p>
-    </div>
+        <p th:utext="${matrix}"></p>
+    </div><br/>
+
+    <button onclick="location.href='/'">Go back</button>
+
+
 </body>
 </html>

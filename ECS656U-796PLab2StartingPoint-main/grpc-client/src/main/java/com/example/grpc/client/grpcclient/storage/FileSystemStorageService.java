@@ -83,4 +83,8 @@ public class FileSystemStorageService implements StorageService {
 			throw new StorageException("Could not initialize storage", e);
 		}
 	}
+
+	public void deleteFile(Path p) throws IOException {
+		FileSystemUtils.deleteRecursively(p);
+	}
 }
