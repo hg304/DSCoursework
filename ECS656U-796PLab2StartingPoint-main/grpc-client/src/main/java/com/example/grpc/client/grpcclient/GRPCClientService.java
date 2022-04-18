@@ -3,7 +3,6 @@ package com.example.grpc.client.grpcclient;
 import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -13,13 +12,11 @@ import io.grpc.stub.StreamObserver;
 import com.example.grpc.server.grpcserver.PingRequest;
 import com.example.grpc.server.grpcserver.PongResponse;
 import com.example.grpc.server.grpcserver.InnerList.Builder;
-import com.google.common.util.concurrent.ListenableFuture;
 import com.example.grpc.server.grpcserver.PingPongServiceGrpc;
 import com.example.grpc.server.grpcserver.MatrixRequest;
 import com.example.grpc.server.grpcserver.MatrixReply;
 import com.example.grpc.server.grpcserver.InnerList;
 import com.example.grpc.server.grpcserver.MatrixServiceGrpc;
-import com.example.grpc.client.grpcclient.OutputObserver;
 import org.springframework.web.bind.annotation.RequestMapping;
 import io.grpc.ManagedChannel;
 import io.grpc.ManagedChannelBuilder;
@@ -192,7 +189,7 @@ public class GRPCClientService {
                 temp.setA(A.get(i));
                 temp.setB(B.get(i));
                 for (int j = 0; j < matrixA.length; j++) {
-                        temp.setN(j);
+                        temp.setLength(j);
                         MatrixReply rep = selectedstubs.get(stubcounter).addBlock(temp.build());
                         if (stubcounter == selectedstubs.size() - 1) {
                                 stubcounter = 0;
@@ -272,11 +269,11 @@ public class GRPCClientService {
                 }
 
         };
-        
+
         for (int i = 0; i < matrixA.length; i++) {
                 MatrixRequest.Builder temp = MatrixRequest.newBuilder();
                 temp.setA(A.get(i));
-                temp.setN(matrixA.length);
+                temp.setLength(matrixA.length);
                 temp.setIndex1(i);
                 for (int j = 0; j < matrixA.length; j++) {
                         temp.setB(B.get(j));
@@ -300,7 +297,7 @@ public class GRPCClientService {
                 MatrixServiceGrpc.MatrixServiceBlockingtub tempstub = MatrixServiceGrpc.newBlockingStub(channel);
                 temp.setA(a);
                 temp.setB(b);
-                temp.setN(value);
+                temp.setLength(value);
                 temp.setIndex1(0);
                 temp.setIndex2(0);
                 System.out.println("Asynchronous operation being done");
