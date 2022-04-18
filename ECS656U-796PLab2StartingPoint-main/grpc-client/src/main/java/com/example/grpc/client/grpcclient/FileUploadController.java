@@ -40,7 +40,7 @@ public class FileUploadController {
     @RequestMapping("/add")
     public String add(Model model, @RequestParam("file") MultipartFile file, @RequestParam("deadline") long deadline) throws InterruptedException, ExecutionException {
         if (file.isEmpty()) {
-            noFileAdded(model);
+            missingInfo(model);
         }
         s.store(file);
         String f = Paths.get(p.getLocation(),file.getOriginalFilename()).toString();
@@ -54,7 +54,7 @@ public class FileUploadController {
 
     @RequestMapping("/multiply")
     public String multiply(Model model, @RequestParam("file") MultipartFile file, @RequestParam("deadline") long deadline) throws InterruptedException, ExecutionException {
-        if ((file.isEmpty()) || (deadline == null) {
+        if (file.isEmpty()) {
             missingInfo(model);
         }
         s.store(file);
