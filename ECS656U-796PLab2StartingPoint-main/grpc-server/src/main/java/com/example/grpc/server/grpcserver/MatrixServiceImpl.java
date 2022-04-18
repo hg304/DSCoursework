@@ -21,7 +21,7 @@ public class MatrixServiceImpl extends MatrixServiceGrpc.MatrixServiceImplBase
 			int index2 = request.getIndex2();
 
 			MatrixReply.Builder rep = MatrixReply.newBuilder();
-			rep.setC(A.getA(index1) + B.getA(index1));
+			rep.setC(A.getA(index2) + B.getA(index2));
 			rep.setIndex1(index1);
 			rep.setIndex2(index2);
 			MatrixReply response = rep.build();
