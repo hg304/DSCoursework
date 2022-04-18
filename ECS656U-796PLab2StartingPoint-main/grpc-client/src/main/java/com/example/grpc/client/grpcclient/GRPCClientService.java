@@ -285,8 +285,9 @@ public class GRPCClientService {
                 System.out.println("Asynchronous operation being done");
                 System.out.println("CALCULATING NUMBER OF SERVERS NEEDED.....");
                 long end = 0;
-                long start = System.nanoTime();
+                long start = System.nanoTime()
                 Future<MatrixReply> rep = tempstub.multiplyBlock(temp.build());
+                Thread.sleep(1000);
                 while (!rep.isDone()) {
                         if (rep.isDone()) {
                                 end = System.nanoTime();
