@@ -12,7 +12,6 @@ import java.util.concurrent.Future;
 import com.example.grpc.server.grpcserver.PingRequest;
 import com.example.grpc.server.grpcserver.PongResponse;
 import com.example.grpc.server.grpcserver.InnerList.Builder;
-import com.google.common.util.concurrent.Futures;
 import com.google.common.util.concurrent.ListenableFuture;
 import com.example.grpc.server.grpcserver.PingPongServiceGrpc;
 import com.example.grpc.server.grpcserver.MatrixRequest;
@@ -134,7 +133,7 @@ public class GRPCClientService {
 
       }
 
-      public int[][] addMatrices(int[][] matrixA, int[][] matrixB, long deadline) throws InterruptedException, ExecutionException{
+      public int[][] addMatrices(int[][] matrixA, int[][] matrixB, long deadline) throws InterruptedExecution, ExecutionException{
         ManagedChannel channel1 = ManagedChannelBuilder.forAddress("10.128.0.2",9090).usePlaintext().build();
         MatrixServiceGrpc.MatrixServiceBlockingStub stub1 = MatrixServiceGrpc.newBlockingStub(channel1);
         ManagedChannel channel2 = ManagedChannelBuilder.forAddress("10.128.0.3",9090).usePlaintext().build();
@@ -207,7 +206,7 @@ public class GRPCClientService {
 
       }
 
-     public int[][] multiplyMatrices(int[][] matrixA, int[][] matrixB, long deadline) throws InterruptedException, ExecutionException {
+     public int[][] multiplyMatrices(int[][] matrixA, int[][] matrixB, long deadline) {
         ManagedChannel channel1 = ManagedChannelBuilder.forAddress("10.128.0.2",9090).usePlaintext().build();
         MatrixServiceGrpc.MatrixServiceBlockingStub stub1 = MatrixServiceGrpc.newBlockingStub(channel1);
         ManagedChannel channel2 = ManagedChannelBuilder.forAddress("10.128.0.3",9090).usePlaintext().build();
@@ -280,26 +279,15 @@ public class GRPCClientService {
 
         public int getNumberServers(String op, InnerList.Builder a, InnerList.Builder b, int value, ManagedChannel channel, int amountOfCalls, long deadline) throws InterruptedException, ExecutionException {
                 MatrixRequest.Builder temp = MatrixRequest.newBuilder();
-                MatrixServiceGrpc.MatrixServiceFutureStub tempstub = MatrixServiceGrpc.newFutureStub(channel);
+                MatrixServiceGrpc.MatrixServiceBlockingStub tempstub = MatrixServiceGrpc.newBlockingStub(channel);
                 temp.setA(a);
                 temp.setB(b);
                 temp.setN(value);
                 System.out.println("Asynchronous operation being done");
                 System.out.println("CALCULATING NUMBER OF SERVERS NEEDED.....");
-                long end = 0;
                 long start = System.nanoTime();
-                ListenableFuture<MatrixReply> rep = tempstub.create(temp.build());
-                Futures.addCallback(rep, new FutureCallback<MatrixReply>() {
-                        @Override
-                        public void onSuccess(MatrixReply result) {
-                                System.out.println("done");
-                        }
-                });
-                while (!rep.isDone()) {
-                        if (rep.isDone()) {
-                                end = System.nanoTime();
-                        }
-                }
+                MatrixReply rep = tempstub.multiplyBlock(temp.build());
+                long end = System.nanoTime();
                 System.out.println("Number of block calls: " + amountOfCalls);
                 long footprint = end - start;
                 System.out.println("Start time: " + start + " End time: " + end + " Elapsed time: " + footprint);
