@@ -4,6 +4,7 @@ import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
@@ -276,7 +277,7 @@ public class GRPCClientService {
         return finalm;
         }
 
-        public int getNumberServers(String op, InnerList.Builder a, InnerList.Builder b, int value, ManagedChannel channel, int amountOfCalls, long deadline) {
+        public int getNumberServers(String op, InnerList.Builder a, InnerList.Builder b, int value, ManagedChannel channel, int amountOfCalls, long deadline) throws InterruptedException, ExecutionException {
                 MatrixRequest.Builder temp = MatrixRequest.newBuilder();
                 MatrixServiceGrpc.MatrixServiceFutureStub tempstub = MatrixServiceGrpc.newFutureStub(channel);
                 temp.setA(a);
