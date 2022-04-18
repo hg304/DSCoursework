@@ -334,11 +334,9 @@ public class GRPCClientService {
                 long end = System.nanoTime();
                 System.out.println("Number of block calls: " + amountOfCalls);
                 long footprint = end - start;
-                double footprintSeconds = (double)(footprint/1000000000);
                 System.out.println("Start time: " + start + " End time: " + end + " Elapsed time: " + footprint);
-                System.out.println("Elapsed time in seconds: " + footprintSeconds);
-                double numberOfServersDouble = (footprintSeconds*amountOfCalls) / deadline;
-                int numberOfServers = (int)(numberOfServersDouble);
+                long numberOfServersLong = (footprint*amountOfCalls) / deadline;
+                int numberOfServers = Math.toIntExact(numberOfServersLong);
                 if (numberOfServers > 8) {
                         numberOfServers = 8;
                 }
