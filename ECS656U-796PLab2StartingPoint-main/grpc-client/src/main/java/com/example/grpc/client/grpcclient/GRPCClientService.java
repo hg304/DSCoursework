@@ -287,8 +287,10 @@ public class GRPCClientService {
                 long end = 0;
                 long start = System.nanoTime();
                 Future<MatrixReply> rep = tempstub.multiplyBlock(temp.build());
-                if (rep.isDone()) {
-                        end = System.nanoTime();
+                while (!rep.isDone()) {
+                        if (rep.isDone()) {
+                                end = System.nanoTime();
+                        }
                 }
                 System.out.println("Number of block calls: " + amountOfCalls);
                 long footprint = end - start;
