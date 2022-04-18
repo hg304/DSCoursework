@@ -258,6 +258,7 @@ public class GRPCClientService {
         StreamObserver<MatrixReply> responseObserver = new StreamObserver<MatrixReply>() {
                 @Override
                 public void onNext(MatrixReply rep) {
+                        System.out.println("Result obtained for Matrix Position " + rep.getIndex1() + ", " + rep.getIndex2() + ": " + rep.getC());
                         finalm[rep.getIndex1()][rep.getIndex2()] = rep.getC();
                 }
                 @Override
