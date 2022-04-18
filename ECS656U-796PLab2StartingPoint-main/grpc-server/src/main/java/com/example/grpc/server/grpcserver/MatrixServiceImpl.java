@@ -27,7 +27,7 @@ public class MatrixServiceImpl extends MatrixServiceGrpc.MatrixServiceImplBase
 			reply.onCompleted();
 	}
 	@Override
-	public void multiplyBlock(MatrixRequest request, StreamObserver<MatrixReply> reply)
+	public MatrixReply multiplyBlock(MatrixRequest request, StreamObserver<MatrixReply> reply)
 	{
 		System.out.println("Request received from client:\n" + request);
 		InnerList A = request.getA();
@@ -43,5 +43,7 @@ public class MatrixServiceImpl extends MatrixServiceGrpc.MatrixServiceImplBase
 		MatrixReply response = rep.build();
 		reply.onNext(response);
 		reply.onCompleted();
+
+		return rep;
 	}
 }
