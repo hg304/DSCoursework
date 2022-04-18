@@ -286,11 +286,24 @@ public class GRPCClientService {
                 temp.setB(b);
                 temp.setN(value);
                 long end = 0;
+                StreamObserver<MatrixReply> responseObserver = new StreamObserver<MatrixReply>() {
+                        @Override
+                        public void onNext(MatrixReply rep) {
+                                System.out.println("Received: " + rep.getC());
+                        }
+                        @Override
+                        public void onError(Throwable t) { 
+                        }
+                        @Override
+                        public void onCompleted() {
+                                System.out.println("Completed multiplication");
+                        }
+                };
                 Future<MatrixReply> rep = null;
                 System.out.println("Asynchronous operation being done");
                 System.out.println("CALCULATING NUMBER OF SERVERS NEEDED.....");
                 long start = System.nanoTime();
-                rep = tempstub.multiplyBlock(temp.build(), new OutputObserver());
+                rep = tempstub.multiplyBlock(temp.build(), responseObserver);
                 while (!rep.isDone()) {
                         if (rep.isDone()) {
                                 end = System.nanoTime();
