@@ -287,8 +287,7 @@ public class GRPCClientService {
                 System.out.println("CALCULATING NUMBER OF SERVERS NEEDED.....");
                 long end = 0;
                 long start = System.nanoTime();
-                Future<MatrixReply> rep = tempstub.multiplyBlock(temp.build());
-                Thread.sleep(1000);
+                CompletableFuture<MatrixReply> rep = CompletableFuture.supplyAsync(() -> operate(tempstub, temp));
                 while (!rep.isDone()) {
                         if (rep.isDone()) {
                                 end = System.nanoTime();
@@ -306,6 +305,14 @@ public class GRPCClientService {
                         numberOfServers = 1;
                 }
                 return numberOfServers;
+        }
+
+        public MatrixReply operate(MatrixServiceGrpc.MatrixServiceFutureStub stub, MatrixRequest.Builder temp) {
+                System.out.println("Entering operate function " + Thread.currentThread());
+                Thread.sleep(2000);
+                MatrixReply rep = stub.multiplyBlock(temp.build());
+                System.out.println("Leaving operate function");
+                return rep;
         }
 
         public int[][] stringToMatrix(String line, int col, int row) {
