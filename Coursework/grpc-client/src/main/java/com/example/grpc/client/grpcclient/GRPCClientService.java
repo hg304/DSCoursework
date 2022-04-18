@@ -4,13 +4,8 @@ import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-import java.util.concurrent.Future;
 
 import io.grpc.stub.StreamObserver;
-import com.example.grpc.server.grpcserver.PingRequest;
-import com.example.grpc.server.grpcserver.PongResponse;
 import com.example.grpc.server.grpcserver.InnerList.Builder;
 import com.example.grpc.server.grpcserver.PingPongServiceGrpc;
 import com.example.grpc.server.grpcserver.MatrixRequest;
@@ -26,19 +21,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
 @Service
 public class GRPCClientService {
-    public String ping() {
-        	ManagedChannel channel = ManagedChannelBuilder.forAddress("localhost", 9090)
-                .usePlaintext()
-                .build();        
-		PingPongServiceGrpc.PingPongServiceBlockingStub stub
-                = PingPongServiceGrpc.newBlockingStub(channel);        
-		PongResponse helloResponse = stub.ping(PingRequest.newBuilder()
-                .setPing("")
-                .build());        
-		channel.shutdown();        
-		return helloResponse.getPong();
-    }
-
+    //method that will convert the matrices from from the text file
     public int[][][] GrpcService(Model model, String f) {
         try {
                 File file = new File(f);
