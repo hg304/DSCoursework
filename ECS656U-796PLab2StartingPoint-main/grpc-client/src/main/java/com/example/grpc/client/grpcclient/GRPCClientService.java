@@ -208,7 +208,7 @@ public class GRPCClientService {
                 temp.setIndex1(i);
                 temp.setIndex2(i);
                 for (int j = 0; j < matrixA.length; j++) {
-                        selectedstubs.get(stubcounter).addBlock(temp.build(), responseObserver;
+                        selectedstubs.get(stubcounter).addBlock(temp.build(), responseObserver);
                         if (stubcounter == selectedstubs.size() - 1) {
                                 stubcounter = 0;
                         } else {
