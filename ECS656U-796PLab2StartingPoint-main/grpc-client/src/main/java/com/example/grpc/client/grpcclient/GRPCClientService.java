@@ -278,15 +278,18 @@ public class GRPCClientService {
 
         public int getNumberServers(String op, InnerList.Builder a, InnerList.Builder b, int value, ManagedChannel channel, int amountOfCalls, long deadline) {
                 MatrixRequest.Builder temp = MatrixRequest.newBuilder();
-                MatrixServiceGrpc.MatrixServiceBlockingStub tempstub = MatrixServiceGrpc.newBlockingStub(channel);
+                MatrixServiceGrpc.MatrixServiceFutureStub tempstub = MatrixServiceGrpc.newFutureStub(channel);
                 temp.setA(a);
                 temp.setB(b);
                 temp.setN(value);
-                long start = System.nanoTime();
                 System.out.println("Asynchronous operation being done");
                 System.out.println("CALCULATING NUMBER OF SERVERS NEEDED.....");
-                MatrixReply rep = tempstub.multiplyBlock(temp.build());
-                long end = System.nanoTime();
+                long end = 0;
+                long start = System.nanoTime();
+                Future<MatrixReply> rep = tempstub.multiplyBlock(temp.build());
+                if (rep.isDone()) {
+                        end = System.nanoTime();
+                }
                 System.out.println("Number of block calls: " + amountOfCalls);
                 long footprint = end - start;
                 System.out.println("Start time: " + start + " End time: " + end + " Elapsed time: " + footprint);
