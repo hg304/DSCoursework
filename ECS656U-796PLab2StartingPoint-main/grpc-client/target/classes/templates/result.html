@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8"></meta>
+    <title>Matrix</title>
+</head>
+<body>
+    <h1>Success<h1>
+    <p>Here are your uploaded matrices:</p>
+    <div th:if="${matrix1}">
+        <p th:text="${matrix1}"></p>
+    </div>
+    <div th:if="${matrix2}">
+        <p th:text="${matrix2}"></p>
+    </div>
+    <p>What would you like to do?</p>
+    <form th:action="@{/add}" th:object="${matrices}" method="post">
+       <input type="submit" value="Add matrices"/>
+    </form>
+    <form th:action="@{/multiply}" th:object="${matrices}" method="post">
+        <input type="submit" value="Multiply matrices"/>
+     </form>
+
+</body>
+</html>
