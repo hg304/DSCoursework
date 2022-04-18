@@ -26,7 +26,6 @@ service MatrixService{
   rpc AddBlock (MatrixRequest) returns (MatrixReply) {}
 }
 
-
 // The request message containing the two matricies
 message MatrixRequest {
   InnerList a = 1;
@@ -46,6 +45,5 @@ message MatrixReply {
 message InnerList {
   repeated int32 a = 1;
 }
-
 
 
