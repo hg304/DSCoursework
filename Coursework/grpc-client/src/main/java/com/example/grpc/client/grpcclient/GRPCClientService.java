@@ -7,7 +7,6 @@ import java.util.concurrent.ExecutionException;
 
 import io.grpc.stub.StreamObserver;
 import com.example.grpc.server.grpcserver.InnerList.Builder;
-import com.example.grpc.server.grpcserver.PingPongServiceGrpc;
 import com.example.grpc.server.grpcserver.MatrixRequest;
 import com.example.grpc.server.grpcserver.MatrixReply;
 import com.example.grpc.server.grpcserver.InnerList;
