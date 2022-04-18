@@ -294,7 +294,7 @@ public class GRPCClientService {
 
         public int getNumberServers(String op, InnerList.Builder a, InnerList.Builder b, int value, ManagedChannel channel, int amountOfCalls, long deadline) throws InterruptedException, ExecutionException {
                 MatrixRequest.Builder temp = MatrixRequest.newBuilder();
-                MatrixServiceGrpc.MatrixServiceBlockingtub tempstub = MatrixServiceGrpc.newBlockingStub(channel);
+                MatrixServiceGrpc.MatrixServiceBlockingStub tempstub = MatrixServiceGrpc.newBlockingStub(channel);
                 temp.setA(a);
                 temp.setB(b);
                 temp.setLength(value);
