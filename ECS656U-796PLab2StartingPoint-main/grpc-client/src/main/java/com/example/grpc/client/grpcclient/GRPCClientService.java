@@ -12,6 +12,7 @@ import java.util.concurrent.Future;
 import com.example.grpc.server.grpcserver.PingRequest;
 import com.example.grpc.server.grpcserver.PongResponse;
 import com.example.grpc.server.grpcserver.InnerList.Builder;
+import com.google.common.util.concurrent.Futures;
 import com.google.common.util.concurrent.ListenableFuture;
 import com.example.grpc.server.grpcserver.PingPongServiceGrpc;
 import com.example.grpc.server.grpcserver.MatrixRequest;
@@ -287,7 +288,13 @@ public class GRPCClientService {
                 System.out.println("CALCULATING NUMBER OF SERVERS NEEDED.....");
                 long end = 0;
                 long start = System.nanoTime();
-                CompletableFuture<MatrixReply> rep = CompletableFuture.supplyAsync(() -> operate(tempstub, temp));
+                ListenableFuture<MatrixReply> rep = tempstub.create(temp.build());
+                Futures.addCallback(rep, new FutureCallback<MatrixReply>() {
+                        @Override
+                        public void onSuccess(MatrixReply result) {
+                                System.out.println("done");
+                        }
+                });
                 while (!rep.isDone()) {
                         if (rep.isDone()) {
                                 end = System.nanoTime();
@@ -305,14 +312,6 @@ public class GRPCClientService {
                         numberOfServers = 1;
                 }
                 return numberOfServers;
-        }
-
-        public MatrixReply operate(MatrixServiceGrpc.MatrixServiceFutureStub stub, MatrixRequest.Builder temp) {
-                System.out.println("Entering operate function " + Thread.currentThread());
-                Thread.sleep(2000);
-                MatrixReply rep = stub.multiplyBlock(temp.build());
-                System.out.println("Leaving operate function");
-                return rep;
         }
 
         public int[][] stringToMatrix(String line, int col, int row) {
