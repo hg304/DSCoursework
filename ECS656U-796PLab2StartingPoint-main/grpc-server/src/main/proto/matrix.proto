@@ -30,12 +30,16 @@ service MatrixService{
 message MatrixRequest {
   InnerList a = 1;
   InnerList b = 2;
-  int32 n = 3;
+  int32 length = 3;
+  int32 index1 = 4;
+  int32 index2 = 5;
 }
 
 // The response message containing the result marix
 message MatrixReply {
   int32 c = 1;
+  int32 index1 = 2;
+  int32 index2 = 3;
 }
 
 message InnerList {

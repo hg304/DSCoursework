@@ -26,7 +26,9 @@ public class MatrixServiceImpl extends MatrixServiceGrpc.MatrixServiceImplBase
 			reply.onNext(response);
 			reply.onCompleted();
 	}
-	public MatrixReply multiplyBlock(MatrixRequest request, StreamObserver<MatrixReply> reply)
+
+	@Override
+	public void multiplyBlock(MatrixRequest request, StreamObserver<MatrixReply> reply)
 	{
 		System.out.println("Request received from client:\n" + request);
 		InnerList A = request.getA();
@@ -38,6 +40,8 @@ public class MatrixServiceImpl extends MatrixServiceGrpc.MatrixServiceImplBase
 		for (int i = 0; i < length; i++) {
 			answer += A.getA(i) * B.getA(i);
 		}
+		rep.setIndex1(request.getIndex1());
+		rep.setIndex2(request.getIndex2());
 		rep.setC(answer);
 		MatrixReply response = rep.build();
 		reply.onNext(response);
