@@ -133,7 +133,7 @@ public class GRPCClientService {
 
       }
 
-      public int[][] addMatrices(int[][] matrixA, int[][] matrixB, long deadline) {
+      public int[][] addMatrices(int[][] matrixA, int[][] matrixB, long deadline) throws InterruptedException, ExecutionException{
         ManagedChannel channel1 = ManagedChannelBuilder.forAddress("10.128.0.2",9090).usePlaintext().build();
         MatrixServiceGrpc.MatrixServiceBlockingStub stub1 = MatrixServiceGrpc.newBlockingStub(channel1);
         ManagedChannel channel2 = ManagedChannelBuilder.forAddress("10.128.0.3",9090).usePlaintext().build();
@@ -206,7 +206,7 @@ public class GRPCClientService {
 
       }
 
-     public int[][] multiplyMatrices(int[][] matrixA, int[][] matrixB, long deadline) {
+     public int[][] multiplyMatrices(int[][] matrixA, int[][] matrixB, long deadline) throws InterruptedException, ExecutionException {
         ManagedChannel channel1 = ManagedChannelBuilder.forAddress("10.128.0.2",9090).usePlaintext().build();
         MatrixServiceGrpc.MatrixServiceBlockingStub stub1 = MatrixServiceGrpc.newBlockingStub(channel1);
         ManagedChannel channel2 = ManagedChannelBuilder.forAddress("10.128.0.3",9090).usePlaintext().build();

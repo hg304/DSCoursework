@@ -5,6 +5,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.concurrent.ExecutionException;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -37,7 +38,7 @@ public class FileUploadController {
 
 
     @RequestMapping("/add")
-    public String add(Model model, @RequestParam("file") MultipartFile file, @RequestParam("deadline") long deadline) {
+    public String add(Model model, @RequestParam("file") MultipartFile file, @RequestParam("deadline") long deadline) throws InterruptedException, ExecutionException {
         if (file == null) {
             noFileAdded(model);
         }
@@ -53,7 +54,7 @@ public class FileUploadController {
     }
 
     @RequestMapping("/multiply")
-    public String multiply(Model model, @RequestParam("file") MultipartFile file, @RequestParam("deadline") long deadline) {
+    public String multiply(Model model, @RequestParam("file") MultipartFile file, @RequestParam("deadline") long deadline) throws InterruptedException, ExecutionException {
         if (file == null) {
             noFileAdded(model);
         }
