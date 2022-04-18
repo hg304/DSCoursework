@@ -40,7 +40,7 @@ public class FileUploadController {
     @RequestMapping("/add")
     public String add(Model model, @RequestParam("file") MultipartFile file, @RequestParam("deadline") long deadline) throws InterruptedException, ExecutionException {
         if (file.isEmpty()) {
-            missingInfo(model);
+            return new String("redirect:/err");
         }
         s.store(file);
         String f = Paths.get(p.getLocation(),file.getOriginalFilename()).toString();
