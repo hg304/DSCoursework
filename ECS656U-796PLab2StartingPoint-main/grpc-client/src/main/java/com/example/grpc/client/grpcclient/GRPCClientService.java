@@ -290,6 +290,8 @@ public class GRPCClientService {
                
         }
 
+        System.out.println(finalm);
+
         return finalm;
         }
 
