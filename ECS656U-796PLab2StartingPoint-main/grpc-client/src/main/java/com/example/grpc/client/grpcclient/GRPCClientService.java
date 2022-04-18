@@ -336,7 +336,8 @@ public class GRPCClientService {
                 long footprint = end - start;
                 System.out.println("Start time: " + start + " End time: " + end + " Elapsed time: " + footprint);
                 long numberOfServersLong = (footprint*amountOfCalls) / deadline;
-                int numberOfServers = Math.toIntExact(numberOfServersLong);
+                double numberOfServersSeconds = (double)(numberOfServersLong/1000000000);
+                int numberOfServers = (int)(numberOfServersSeconds);
                 if (numberOfServers > 8) {
                         numberOfServers = 8;
                 }
