@@ -106,6 +106,7 @@ public class GRPCClientService {
                 }
                 maxRowB = row;
                 br.close();
+                file.delete();
 
                 if (maxColA != maxRowB) {
                         String message = "The matrices cannot be used to perform operations";
