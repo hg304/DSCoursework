@@ -48,7 +48,6 @@ public class FileUploadController {
         int[][] matrixA = matrices[0];
         int[][] matrixB = matrices[1];
         int[][] matrixC = g.addMatrices(matrixA, matrixB, deadline);
-        s.delete(Paths.get(p.getLocation(),file.getOriginalFilename()));
         model.addAttribute("matrix", matrixAsString(matrixC));
         return "addresult";
     }
@@ -64,7 +63,6 @@ public class FileUploadController {
         int[][] matrixA = matrices[0];
         int[][] matrixB = matrices[1];
         int[][] matrixC = g.multiplyMatrices(matrixA, matrixB, deadline);
-        s.delete(Paths.get(p.getLocation(),file.getOriginalFilename()));
         model.addAttribute("matrix", matrixAsString(matrixC));
         return "addresult";
     }
