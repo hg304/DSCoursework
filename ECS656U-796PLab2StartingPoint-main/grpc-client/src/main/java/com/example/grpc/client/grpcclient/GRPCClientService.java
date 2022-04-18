@@ -328,7 +328,7 @@ public class GRPCClientService {
                 if (op.equals("multiply")) {
                         rep = tempstub.multiplyBlock(temp.build());
                 } else {
-                        rep.tempstub.addBlock(temp.build());
+                        rep = tempstub.addBlock(temp.build());
                 }
                 long end = System.nanoTime();
                 System.out.println("Number of block calls: " + amountOfCalls);
