@@ -49,6 +49,5 @@ public class MatrixServiceImpl extends MatrixServiceGrpc.MatrixServiceImplBase
 		reply.onNext(response);
 		reply.onCompleted();
 
-		return response;
 	}
 }
