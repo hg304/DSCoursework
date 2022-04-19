@@ -106,8 +106,7 @@ public class GRPCClientService {
                         return matrices;
                 }
         } catch (Exception e) {
-                String message = e.getMessage();
-                printError(model, message);
+                System.out.println(e.getMessage());
         }
 
       }
