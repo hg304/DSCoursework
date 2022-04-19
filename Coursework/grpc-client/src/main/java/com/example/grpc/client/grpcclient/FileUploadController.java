@@ -72,10 +72,10 @@ public class FileUploadController {
         String f = Paths.get(p.getLocation(),file.getOriginalFilename()).toString();
         int[][][] matrices = g.GrpcService(model, f, deadline);
         if (matrices[0][0][0] == 1) {
-            model.addAttribute("msg", "One of the matrices was not a power of 2");
+            model.addAttribute("msg", "The two matrices are not of the same dimensions");
             return "errorform";
         } else if (matrices[0][0][0] == 2) {
-            model.addAttribute("msg", "The two matrices are not of the same dimensions");
+            model.addAttribute("msg", "One of the matrices is not a power of 2");
             return "errorform";
         } else if (matrices[0][0][0] == 3) {
             model.addAttribute("msg", "One of the matrices is not a square matrix");
