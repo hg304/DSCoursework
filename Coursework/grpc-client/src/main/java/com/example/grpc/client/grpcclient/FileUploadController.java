@@ -35,18 +35,30 @@ public class FileUploadController {
 
     //will perform the addition operation and then return the results to the result html page
     @RequestMapping("/add")
-    public String add(Model model, @RequestParam("file") MultipartFile file, @RequestParam("deadline") long deadline) throws InterruptedException, ExecutionException {
+    public String add(Model model, @RequestParam("file") MultipartFile file, @RequestParam("deadline") String deadline) throws InterruptedException, ExecutionException {
         if (file.isEmpty()) {
-            return new String("redirect:/err");
+            model.addAttribute("msg", "One of the required information is missing");
+            return "errorform";
         }
         s.store(file);
         String f = Paths.get(p.getLocation(),file.getOriginalFilename()).toString();
-        int[][][] matrices = g.GrpcService(model, f);
-        int[][] matrixA = matrices[0];
-        int[][] matrixB = matrices[1];
-        int[][] matrixC = g.addMatrices(matrixA, matrixB, deadline);
-        model.addAttribute("matrix", matrixAsString(matrixC));
-        return "result";
+        int[][][] matrices = g.GrpcService(model, f, deadline);
+        if ((matrices[0].length == 0) && (matrices[1].length == 1) && (matrices[2].length == 0)) {
+            model.addAttribute("msg", "One of the matrices was not a power of 2");
+            return "errorform";
+        } else if ((matrices[0].length == 0) && (matrices[1].length == 0) && (matrices[2].length == 1)) {
+            model.addAttribute("msg", "The two matrices are not of the same dimensions");
+            return "errorform";
+        } else if ((matrices[0].length == 1) && (matrices[1].length == 0) && (matrices[2].length == 0)) {
+            model.addAttribute("msg", "One of the required information is missing");
+            return "errorform";
+        } else {
+            int[][] matrixA = matrices[0];
+            int[][] matrixB = matrices[1];
+            int[][] matrixC = g.addMatrices(matrixA, matrixB, Long.parseLong(deadline));
+            model.addAttribute("matrix", matrixAsString(matrixC));
+            return "result";
+        }
     }
 
     //will perform the multiplication operation and then return the results to the result html page

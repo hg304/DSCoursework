@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.concurrent.ExecutionException;
 
 import io.grpc.stub.StreamObserver;
+import com.example.grpc.client.grpcclient.FileUploadController;
 import com.example.grpc.server.grpcserver.InnerList.Builder;
 import com.example.grpc.server.grpcserver.MatrixRequest;
 import com.example.grpc.server.grpcserver.MatrixReply;
@@ -21,7 +22,7 @@ import org.springframework.ui.Model;
 @Service
 public class GRPCClientService {
     //method that will convert the matrices from from the text file
-    public int[][][] GrpcService(Model model, String f) {
+    public int[][][] GrpcService(Model model, String f, String deadline) {
         try {
                 File file = new File(f);
                 BufferedReader br = new BufferedReader(new FileReader(file));
@@ -90,8 +91,12 @@ public class GRPCClientService {
                 br.close();
                 file.delete();
 
-                if (maxColA != maxRowB) {
-                        
+                if ((maxColA != maxRowB) || (maxColB != maxRowA) || (maxRowA != maxColA) || (maxRowB != maxColB)) {
+                        return new int[0][0][1];
+                } else if (!isPowerOfTwo(maxColA)) {
+                        return new int[0][1][0];
+                } else if (deadline.isEmpty()) {
+                        return new int[1][0][0];
                 } else {
                         int[][] matrixA = stringToMatrix(matrixLine1, maxColA, maxRowA);
                         int[][] matrixB = stringToMatrix(matrixLine2, maxColB, maxRowB);
@@ -112,6 +117,20 @@ public class GRPCClientService {
               model.addAttribute("msg", message);
               return "errorform";
 
+      }
+
+      public boolean isPowerOfTwo(int n)
+      {
+                if (n == 0)
+                        return false;
+                
+                while (n != 1)
+                {
+                        if (n % 2 != 0)
+                                return false;
+                        n = n / 2;
+                }
+                return true;
       }
 
       // method that will be adding the two matrices together
@@ -326,7 +345,7 @@ public class GRPCClientService {
                         }
                         @Override
                         public void onCompleted() {
-                                System.out.println("Server finished processing");
+                                System.out.println("Deadline based scaling complete...\n");
                         }
         
                 };
