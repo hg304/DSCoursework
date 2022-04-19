@@ -56,7 +56,7 @@ public class GRPCClientService {
                                 }
 
                         }
-                line = br.readLine();
+                        line = br.readLine();
                 }
                 maxRowA = row;
                 row = 0;
@@ -82,7 +82,7 @@ public class GRPCClientService {
                                 }
 
                         }
-                line = br.readLine();
+                        line = br.readLine();
                 }
                 maxRowB = row;
                 br.close();
@@ -109,21 +109,15 @@ public class GRPCClientService {
                 String message = e.getMessage();
                 printError(model, message);
         }
-        return null;
 
       }
-      @RequestMapping("/error")
-      public String printError(Model model, String message) {
-              model.addAttribute("msg", message);
-              return "errorform";
 
-      }
 
       public boolean isPowerOfTwo(int n)
       {
-                if (n == 0)
+                if (n == 0) {
                         return false;
-                
+                }
                 while (n != 1)
                 {
                         if (n % 2 != 0)
