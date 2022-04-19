@@ -21,7 +21,7 @@ import org.springframework.ui.Model;
 @Service
 public class GRPCClientService {
     //method that will convert the matrices from from the text file
-    public int[][][] GrpcService(Model model, String f) {
+    public int[][][] GrpcService(Model model, String f, String deadline) {
         try {
                 File file = new File(f);
                 BufferedReader br = new BufferedReader(new FileReader(file));
@@ -36,87 +36,53 @@ public class GRPCClientService {
                 int maxColB = 0;
                 String temp = new String();
                 while (!line.isEmpty()) {
-                row += 1;
-                for (int i = 0; i < line.length(); i++) {
-                        char c = line.charAt(i);
-                        if (c == ' ') {
-                        col += 1;
-                        matrixLine1 = matrixLine1 + temp + " ";
-                        temp = "";
-                        
-                        } else {
-                        temp += c;
-<<<<<<< HEAD
-                        }
-                        
-                        if (i == line.length() - 1) {
-                        col += 1;
-                        maxColA = col;
-                        col = 0;
-                        matrixLine1 += temp + " ";
-                        temp = "";
-                        }
-<<<<<<< HEAD
-                        line = br.readLine();
-=======
-=======
-                        }
-                        
-                        if (i == line.length() - 1) {
-                        col += 1;
-                        maxColA = col;
-                        col = 0;
-                        matrixLine1 += temp + " ";
-                        temp = "";
-                        }
->>>>>>> parent of e6d9095 (FINISHED)
+                        row += 1;
+                        for (int i = 0; i < line.length(); i++) {
+                                char c = line.charAt(i);
+                                if (c == ' ') {
+                                        col += 1;
+                                        matrixLine1 = matrixLine1 + temp + " ";
+                                        temp = "";
+                                } else {
+                                        temp += c;
+                                }
+                                
+                                if (i == line.length() - 1) {
+                                        col += 1;
+                                        maxColA = col;
+                                        col = 0;
+                                        matrixLine1 += temp + " ";
+                                        temp = "";
+                                }
 
-                }
+                        }
                 line = br.readLine();
->>>>>>> parent of e6d9095 (FINISHED)
                 }
                 maxRowA = row;
                 row = 0;
                 line = br.readLine();
                 while (!line.isEmpty()) {
-                row += 1;
-                for (int i = 0; i < line.length(); i++) {
-                        char c = line.charAt(i);
-                        if (c == ' ') {
-                        col += 1;
-                        matrixLine2 = matrixLine2 + temp + " ";
-                        temp = "";
-                        
-                        } else {
-                        temp += c;
-<<<<<<< HEAD
-                        }
-                        
-                        if (i == line.length() - 1) {
-                        col += 1;
-                        maxColB = col;
-                        col = 0;
-                        matrixLine2 += temp + " ";
-                        temp = "";
-                        }
-<<<<<<< HEAD
-                        line = br.readLine();
-=======
-=======
-                        }
-                        
-                        if (i == line.length() - 1) {
-                        col += 1;
-                        maxColB = col;
-                        col = 0;
-                        matrixLine2 += temp + " ";
-                        temp = "";
-                        }
->>>>>>> parent of e6d9095 (FINISHED)
+                        row += 1;
+                        for (int i = 0; i < line.length(); i++) {
+                                char c = line.charAt(i);
+                                if (c == ' ') {
+                                        col += 1;
+                                        matrixLine2 = matrixLine2 + temp + " ";
+                                        temp = "";                     
+                                } else {
+                                        temp += c;
+                                }
+                                
+                                if (i == line.length() - 1) {
+                                        col += 1;
+                                        maxColB = col;
+                                        col = 0;
+                                        matrixLine2 += temp + " ";
+                                        temp = "";
+                                }
 
-                }
+                        }
                 line = br.readLine();
->>>>>>> parent of e6d9095 (FINISHED)
                 }
                 maxRowB = row;
                 br.close();
@@ -140,17 +106,24 @@ public class GRPCClientService {
                         return matrices;
                 }
         } catch (Exception e) {
-                System.out.println(e.getMessage());
+                String message = e.getMessage();
+                printError(model, message);
         }
-                return null;
-      }
+        return null;
 
+      }
+      @RequestMapping("/error")
+      public String printError(Model model, String message) {
+              model.addAttribute("msg", message);
+              return "errorform";
+
+      }
 
       public boolean isPowerOfTwo(int n)
       {
-                if (n == 0) {
+                if (n == 0)
                         return false;
-                }
+                
                 while (n != 1)
                 {
                         if (n % 2 != 0)
@@ -221,7 +194,7 @@ public class GRPCClientService {
         StreamObserver<MatrixReply> responseObserver = new StreamObserver<MatrixReply>() {
                 @Override
                 public void onNext(MatrixReply rep) {
-                        System.out.println("Result obtained for Matrix Position " + (rep.getIndex1() + 1) + ", " + (rep.getIndex2() + 1) + ": " + rep.getC());
+                        System.out.println("Result obtained for Matrix Position " + rep.getIndex1() + ", " + rep.getIndex2() + ": " + rep.getC());
                         finalm[rep.getIndex1()][rep.getIndex2()] = rep.getC();
                 }
                 @Override
@@ -229,7 +202,7 @@ public class GRPCClientService {
                 }
                 @Override
                 public void onCompleted() {
-                        System.out.println("Server finished processing addition block");
+                        System.out.println("Server finished processing addition");
                 }
 
         };
@@ -318,7 +291,7 @@ public class GRPCClientService {
         StreamObserver<MatrixReply> responseObserver = new StreamObserver<MatrixReply>() {
                 @Override
                 public void onNext(MatrixReply rep) {
-                        System.out.println("Result obtained for Matrix Position " + (rep.getIndex1() + 1) + ", " + (rep.getIndex2() + 1) + ": " + rep.getC());
+                        System.out.println("Result obtained for Matrix Position " + rep.getIndex1() + ", " + rep.getIndex2() + ": " + rep.getC());
                         finalm[rep.getIndex1()][rep.getIndex2()] = rep.getC();
                 }
                 @Override
@@ -326,7 +299,7 @@ public class GRPCClientService {
                 }
                 @Override
                 public void onCompleted() {
-                        System.out.println("Server finished processing multiplication block");
+                        System.out.println("Server finished processing multiplication");
                 }
 
         };

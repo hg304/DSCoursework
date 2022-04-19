@@ -35,15 +35,14 @@ public class FileUploadController {
 
     //will perform the addition operation and then return the results to the result html page
     @RequestMapping("/add")
-    public String add(Model model, @RequestParam("file") MultipartFile file, @RequestParam("deadline") String deadlineString) throws InterruptedException, ExecutionException {
-        if ((file.isEmpty()) || (deadlineString.isEmpty())) {
+    public String add(Model model, @RequestParam("file") MultipartFile file, @RequestParam("deadline") String deadline) throws InterruptedException, ExecutionException {
+        if ((file.isEmpty()) || (deadline.isEmpty())) {
             model.addAttribute("msg", "One of the required information is missing");
             return "errorform";
         }
         s.store(file);
-        long deadline = Long.parseLong(deadlineString);
         String f = Paths.get(p.getLocation(),file.getOriginalFilename()).toString();
-        int[][][] matrices = g.GrpcService(model, f);
+        int[][][] matrices = g.GrpcService(model, f, deadline);
         if (matrices[0][0][0] == 1) {
             model.addAttribute("msg", "One of the matrices was not a power of 2");
             return "errorform";
@@ -56,7 +55,7 @@ public class FileUploadController {
         } else {
             int[][] matrixA = matrices[0];
             int[][] matrixB = matrices[1];
-            int[][] matrixC = g.addMatrices(matrixA, matrixB, deadline);
+            int[][] matrixC = g.addMatrices(matrixA, matrixB, Long.parseLong(deadline));
             model.addAttribute("matrix", matrixAsString(matrixC));
             return "result";
         }
@@ -64,15 +63,14 @@ public class FileUploadController {
 
     //will perform the multiplication operation and then return the results to the result html page
     @RequestMapping("/multiply")
-    public String multiply(Model model, @RequestParam("file") MultipartFile file, @RequestParam("deadline") String deadlineString) throws InterruptedException, ExecutionException {
-        if ((file.isEmpty()) || (deadlineString.isEmpty())) {
+    public String multiply(Model model, @RequestParam("file") MultipartFile file, @RequestParam("deadline") String deadline) throws InterruptedException, ExecutionException {
+        if ((file.isEmpty()) || (deadline.isEmpty())) {
             model.addAttribute("msg", "One of the required information is missing");
             return "errorform";
         }
         s.store(file);
-        long deadline = Long.parseLong(deadlineString);
         String f = Paths.get(p.getLocation(),file.getOriginalFilename()).toString();
-        int[][][] matrices = g.GrpcService(model, f);
+        int[][][] matrices = g.GrpcService(model, f, deadline);
         if (matrices[0][0][0] == 1) {
             model.addAttribute("msg", "The two matrices are not of the same dimensions");
             return "errorform";
@@ -85,15 +83,7 @@ public class FileUploadController {
         } else {
             int[][] matrixA = matrices[0];
             int[][] matrixB = matrices[1];
-<<<<<<< HEAD
-<<<<<<< HEAD
-            int[][] matrixC = g.multiplyMatrices(matrixA, matrixB, deadline);
-=======
-            int[][] matrixC = g.addMatrices(matrixA, matrixB, Long.parseLong(deadline));
->>>>>>> parent of e6d9095 (FINISHED)
-=======
-            int[][] matrixC = g.addMatrices(matrixA, matrixB, Long.parseLong(deadline));
->>>>>>> parent of e6d9095 (FINISHED)
+            int[][] matrixC = g.multiplyMatrices(matrixA, matrixB, Long.parseLong(deadline));
             model.addAttribute("matrix", matrixAsString(matrixC));
             return "result";
         }
