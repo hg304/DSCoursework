@@ -83,7 +83,7 @@ public class FileUploadController {
         } else {
             int[][] matrixA = matrices[0];
             int[][] matrixB = matrices[1];
-            int[][] matrixC = g.addMatrices(matrixA, matrixB, Long.parseLong(deadline));
+            int[][] matrixC = g.multiplyMatrices(matrixA, matrixB, Long.parseLong(deadline));
             model.addAttribute("matrix", matrixAsString(matrixC));
             return "result";
         }

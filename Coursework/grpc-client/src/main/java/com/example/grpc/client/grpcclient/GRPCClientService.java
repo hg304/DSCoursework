@@ -36,54 +36,52 @@ public class GRPCClientService {
                 int maxColB = 0;
                 String temp = new String();
                 while (!line.isEmpty()) {
-                row += 1;
-                for (int i = 0; i < line.length(); i++) {
-                        char c = line.charAt(i);
-                        if (c == ' ') {
-                        col += 1;
-                        matrixLine1 = matrixLine1 + temp + " ";
-                        temp = "";
-                        
-                        } else {
-                        temp += c;
-                        }
-                        
-                        if (i == line.length() - 1) {
-                        col += 1;
-                        maxColA = col;
-                        col = 0;
-                        matrixLine1 += temp + " ";
-                        temp = "";
-                        }
+                        row += 1;
+                        for (int i = 0; i < line.length(); i++) {
+                                char c = line.charAt(i);
+                                if (c == ' ') {
+                                        col += 1;
+                                        matrixLine1 = matrixLine1 + temp + " ";
+                                        temp = "";
+                                } else {
+                                        temp += c;
+                                }
+                                
+                                if (i == line.length() - 1) {
+                                        col += 1;
+                                        maxColA = col;
+                                        col = 0;
+                                        matrixLine1 += temp + " ";
+                                        temp = "";
+                                }
 
-                }
+                        }
                 line = br.readLine();
                 }
                 maxRowA = row;
                 row = 0;
                 line = br.readLine();
                 while (!line.isEmpty()) {
-                row += 1;
-                for (int i = 0; i < line.length(); i++) {
-                        char c = line.charAt(i);
-                        if (c == ' ') {
-                        col += 1;
-                        matrixLine2 = matrixLine2 + temp + " ";
-                        temp = "";
-                        
-                        } else {
-                        temp += c;
-                        }
-                        
-                        if (i == line.length() - 1) {
-                        col += 1;
-                        maxColB = col;
-                        col = 0;
-                        matrixLine2 += temp + " ";
-                        temp = "";
-                        }
+                        row += 1;
+                        for (int i = 0; i < line.length(); i++) {
+                                char c = line.charAt(i);
+                                if (c == ' ') {
+                                        col += 1;
+                                        matrixLine2 = matrixLine2 + temp + " ";
+                                        temp = "";                     
+                                } else {
+                                        temp += c;
+                                }
+                                
+                                if (i == line.length() - 1) {
+                                        col += 1;
+                                        maxColB = col;
+                                        col = 0;
+                                        matrixLine2 += temp + " ";
+                                        temp = "";
+                                }
 
-                }
+                        }
                 line = br.readLine();
                 }
                 maxRowB = row;
