@@ -21,7 +21,7 @@ import org.springframework.ui.Model;
 @Service
 public class GRPCClientService {
     //method that will convert the matrices from from the text file
-    public int[][][] GrpcService(Model model, String f, String deadline) {
+    public int[][][] GrpcService(Model model, String f) {
         try {
                 File file = new File(f);
                 BufferedReader br = new BufferedReader(new FileReader(file));
