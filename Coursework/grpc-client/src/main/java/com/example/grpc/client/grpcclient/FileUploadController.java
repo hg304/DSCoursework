@@ -85,7 +85,11 @@ public class FileUploadController {
         } else {
             int[][] matrixA = matrices[0];
             int[][] matrixB = matrices[1];
+<<<<<<< HEAD
             int[][] matrixC = g.multiplyMatrices(matrixA, matrixB, deadline);
+=======
+            int[][] matrixC = g.addMatrices(matrixA, matrixB, Long.parseLong(deadline));
+>>>>>>> parent of e6d9095 (FINISHED)
             model.addAttribute("matrix", matrixAsString(matrixC));
             return "result";
         }
