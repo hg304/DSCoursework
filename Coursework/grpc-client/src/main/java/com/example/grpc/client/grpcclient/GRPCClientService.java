@@ -46,6 +46,7 @@ public class GRPCClientService {
                         
                         } else {
                         temp += c;
+<<<<<<< HEAD
                         }
                         
                         if (i == line.length() - 1) {
@@ -58,6 +59,17 @@ public class GRPCClientService {
 <<<<<<< HEAD
                         line = br.readLine();
 =======
+=======
+                        }
+                        
+                        if (i == line.length() - 1) {
+                        col += 1;
+                        maxColA = col;
+                        col = 0;
+                        matrixLine1 += temp + " ";
+                        temp = "";
+                        }
+>>>>>>> parent of e6d9095 (FINISHED)
 
                 }
                 line = br.readLine();
@@ -77,6 +89,7 @@ public class GRPCClientService {
                         
                         } else {
                         temp += c;
+<<<<<<< HEAD
                         }
                         
                         if (i == line.length() - 1) {
@@ -89,6 +102,17 @@ public class GRPCClientService {
 <<<<<<< HEAD
                         line = br.readLine();
 =======
+=======
+                        }
+                        
+                        if (i == line.length() - 1) {
+                        col += 1;
+                        maxColB = col;
+                        col = 0;
+                        matrixLine2 += temp + " ";
+                        temp = "";
+                        }
+>>>>>>> parent of e6d9095 (FINISHED)
 
                 }
                 line = br.readLine();

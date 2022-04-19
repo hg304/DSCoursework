@@ -86,7 +86,11 @@ public class FileUploadController {
             int[][] matrixA = matrices[0];
             int[][] matrixB = matrices[1];
 <<<<<<< HEAD
+<<<<<<< HEAD
             int[][] matrixC = g.multiplyMatrices(matrixA, matrixB, deadline);
+=======
+            int[][] matrixC = g.addMatrices(matrixA, matrixB, Long.parseLong(deadline));
+>>>>>>> parent of e6d9095 (FINISHED)
 =======
             int[][] matrixC = g.addMatrices(matrixA, matrixB, Long.parseLong(deadline));
 >>>>>>> parent of e6d9095 (FINISHED)
