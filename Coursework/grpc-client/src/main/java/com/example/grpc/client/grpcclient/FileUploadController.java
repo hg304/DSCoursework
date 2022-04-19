@@ -36,7 +36,7 @@ public class FileUploadController {
     //will perform the addition operation and then return the results to the result html page
     @RequestMapping("/add")
     public String add(Model model, @RequestParam("file") MultipartFile file, @RequestParam("deadline") String deadlineString) throws InterruptedException, ExecutionException {
-        if ((file.isEmpty()) || (deadline.isEmpty())) {
+        if ((file.isEmpty()) || (deadlineString.isEmpty())) {
             model.addAttribute("msg", "One of the required information is missing");
             return "errorform";
         }
@@ -65,7 +65,7 @@ public class FileUploadController {
     //will perform the multiplication operation and then return the results to the result html page
     @RequestMapping("/multiply")
     public String multiply(Model model, @RequestParam("file") MultipartFile file, @RequestParam("deadline") String deadlineString) throws InterruptedException, ExecutionException {
-        if ((file.isEmpty()) || (deadline.isEmpty())) {
+        if ((file.isEmpty()) || (deadlineString.isEmpty())) {
             model.addAttribute("msg", "One of the required information is missing");
             return "errorform";
         }
