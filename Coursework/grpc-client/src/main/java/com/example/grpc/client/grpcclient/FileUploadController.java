@@ -43,13 +43,13 @@ public class FileUploadController {
         s.store(file);
         String f = Paths.get(p.getLocation(),file.getOriginalFilename()).toString();
         int[][][] matrices = g.GrpcService(model, f, deadline);
-        if ((matrices[0].length == 0) && (matrices[1].length == 1) && (matrices[2].length == 0)) {
+        if (matrices[0][0][0] == 1) {
             model.addAttribute("msg", "One of the matrices was not a power of 2");
             return "errorform";
-        } else if ((matrices[0].length == 0) && (matrices[1].length == 0) && (matrices[2].length == 1)) {
+        } else if (matrices[0][0][0] == 2) {
             model.addAttribute("msg", "The two matrices are not of the same dimensions");
             return "errorform";
-        } else if ((matrices[0].length == 1) && (matrices[1].length == 0) && (matrices[2].length == 0)) {
+        } else if (matrices[0][0][0] == 3) {
             model.addAttribute("msg", "One of the matrices is not a square matrix");
             return "errorform";
         } else {

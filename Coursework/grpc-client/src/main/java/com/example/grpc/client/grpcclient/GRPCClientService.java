@@ -91,11 +91,14 @@ public class GRPCClientService {
                 file.delete();
 
                 if ((maxColA != maxRowB) || (maxColB != maxRowA) || (maxRowA != maxColA) || (maxRowB != maxColB)) {
-                        return new int[0][0][1];
+                        int[][][] errmatrix = {{{1}}};
+                        return errmatrix;
                 } else if (!isPowerOfTwo(maxColA)) {
-                        return new int[0][1][0];
+                        int[][][] errmatrix = {{{2}}};
+                        return errmatrix;
                 } else if ((maxRowA != maxColA) || (maxRowB != maxColB)) {
-                        return new int[1][0][0];
+                        int[][][] errmatrix = {{{3}}};
+                        return errmatrix;
                 } else {
                         int[][] matrixA = stringToMatrix(matrixLine1, maxColA, maxRowA);
                         int[][] matrixB = stringToMatrix(matrixLine2, maxColB, maxRowB);
