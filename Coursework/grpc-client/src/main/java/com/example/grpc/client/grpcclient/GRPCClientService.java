@@ -194,7 +194,7 @@ public class GRPCClientService {
         StreamObserver<MatrixReply> responseObserver = new StreamObserver<MatrixReply>() {
                 @Override
                 public void onNext(MatrixReply rep) {
-                        System.out.println("Result obtained for Matrix Position " + rep.getIndex1() + ", " + rep.getIndex2() + ": " + rep.getC());
+                        System.out.println("Result obtained for Matrix Position " + (rep.getIndex1() + 1) + ", " + (rep.getIndex2() + 1) + ": " + rep.getC());
                         finalm[rep.getIndex1()][rep.getIndex2()] = rep.getC();
                 }
                 @Override
@@ -202,7 +202,7 @@ public class GRPCClientService {
                 }
                 @Override
                 public void onCompleted() {
-                        System.out.println("Server finished processing addition");
+                        System.out.println("Server finished processing addition block");
                 }
 
         };
@@ -291,7 +291,7 @@ public class GRPCClientService {
         StreamObserver<MatrixReply> responseObserver = new StreamObserver<MatrixReply>() {
                 @Override
                 public void onNext(MatrixReply rep) {
-                        System.out.println("Result obtained for Matrix Position " + rep.getIndex1() + ", " + rep.getIndex2() + ": " + rep.getC());
+                        System.out.println("Result obtained for Matrix Position " + (rep.getIndex1() + 1) + ", " + (rep.getIndex2() + 1) + ": " + rep.getC());
                         finalm[rep.getIndex1()][rep.getIndex2()] = rep.getC();
                 }
                 @Override
@@ -299,7 +299,7 @@ public class GRPCClientService {
                 }
                 @Override
                 public void onCompleted() {
-                        System.out.println("Server finished processing multiplication");
+                        System.out.println("Server finished processing multiplication block");
                 }
 
         };
