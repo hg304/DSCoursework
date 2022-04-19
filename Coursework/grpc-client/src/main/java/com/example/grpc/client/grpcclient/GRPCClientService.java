@@ -6,7 +6,6 @@ import java.util.List;
 import java.util.concurrent.ExecutionException;
 
 import io.grpc.stub.StreamObserver;
-import com.example.grpc.client.grpcclient.FileUploadController;
 import com.example.grpc.server.grpcserver.InnerList.Builder;
 import com.example.grpc.server.grpcserver.MatrixRequest;
 import com.example.grpc.server.grpcserver.MatrixReply;
@@ -95,7 +94,7 @@ public class GRPCClientService {
                         return new int[0][0][1];
                 } else if (!isPowerOfTwo(maxColA)) {
                         return new int[0][1][0];
-                } else if (deadline.isEmpty()) {
+                } else if ((maxRowA != maxColA) || (maxRowB != maxColB)) {
                         return new int[1][0][0];
                 } else {
                         int[][] matrixA = stringToMatrix(matrixLine1, maxColA, maxRowA);
@@ -134,7 +133,7 @@ public class GRPCClientService {
       }
 
       // method that will be adding the two matrices together
-      public int[][] addMatrices(int[][] matrixA, int[][] matrixB, long deadline) throws InterruptedException, ExecutionException{
+      public int[][] addMatrices(int[][] matrixA, int[][] matrixB, long deadline) throws InterruptedException, ExecutionException {
         //setting up the grpc non blocking stubs
         ManagedChannel channel1 = ManagedChannelBuilder.forAddress("10.128.0.2",9090).usePlaintext().build();
         MatrixServiceGrpc.MatrixServiceStub stub1 = MatrixServiceGrpc.newStub(channel1);
